@@ -85,10 +85,17 @@ namespace tinyBrightness
             Set_Initial_Brightness();
         }
 
+
         private void Slider_Brightness_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
         }
+
+        private void Slider_Brightness_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
+        }
+
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
