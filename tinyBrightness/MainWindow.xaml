@@ -1,0 +1,57 @@
+﻿<Window x:Class="tinyBrightness.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:res="clr-namespace:tinyBrightness.Properties"
+        xmlns:local="clr-namespace:tinyBrightness"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:ThemeManager.IsThemeAware="True"
+        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+        Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+        BorderThickness="1,1,0,0"
+        BorderBrush="#7F878787"
+        Title="MainWindow"
+        ShowInTaskbar="False"
+        Visibility="Hidden"
+        Deactivated="Window_Deactivated"
+        Topmost="True"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+         
+        ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
+
+    <Grid Width="300" x:Name="Main_Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="38"></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Margin="3">
+            <ComboBox x:Name="Monitor_List_Combobox" HorizontalAlignment="Stretch" DisplayMemberPath="name" 
+                      SelectedValuePath="Handle" SelectionChanged="Monitor_List_Combobox_SelectionChanged"/>
+        </Border>
+        
+        <Canvas Grid.Row="1" Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Path Fill="{DynamicResource SystemControlPageTextBaseHighBrush}" Data="M3.55,18.54L4.96,19.95L6.76,18.16L5.34,16.74M11,22.45C11.32,22.45 13,22.45 13,22.45V19.5H11M12,5.5A6,6 0 0,0 6,11.5A6,6 0 0,0 12,17.5A6,6 0 0,0 18,11.5C18,8.18 15.31,5.5 12,5.5M20,12.5H23V10.5H20M17.24,18.16L19.04,19.95L20.45,18.54L18.66,16.74M20.45,4.46L19.04,3.05L17.24,4.84L18.66,6.26M13,0.55H11V3.5H13M4,10.5H1V12.5H4M6.76,4.84L4.96,3.05L3.55,4.46L5.34,6.26L6.76,4.84Z" />
+        </Canvas>
+        <Slider Grid.Row="1" HorizontalAlignment="Left" x:Name="Slider_Brightness" Thumb.DragCompleted="Slider_Brightness_DragCompleted" AutoToolTipPlacement="TopLeft" Grid.Column="1" Width="240" Maximum="100" VerticalAlignment="Center"/>
+        <tb:TaskbarIcon
+                IconSource="pack://application:,,,/Icons/icon.ico"
+                ToolTipText="tinyBrightness"
+                TrayLeftMouseDown="Window_Loaded">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="About" Click="About_Click"/>
+                    <MenuItem Header="Exit" Click="Exit_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+    </Grid>
+</Window>
