@@ -49,6 +49,7 @@
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="About" Click="About_Click"/>
+                    <MenuItem Header="Update Monitors" Click="Window_Loaded"/>
                     <MenuItem Header="Exit" Click="Exit_Click"/>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
