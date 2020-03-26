@@ -6,19 +6,22 @@
         xmlns:local="clr-namespace:tinyBrightness"
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        ContentRendered="Window_ContentRendered"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.IsThemeAware="True"
         Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Title="About" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Height="120" Width="400" SizeToContent="WidthAndHeight">
-        <Border Padding="10">
+        Title="About" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Height="158.6" Width="400">
+    <Viewbox>
+        <Border Padding="10" Height="114">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"><Run FontSize="18" Text="tinyBrightness"/><LineBreak/><Run/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
-
+                <TextBlock Grid.Row="0"><Run FontSize="18" Text="tinyBrightness"/><LineBreak/><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
+                <Button Margin="0,10,0,0" Grid.Row="1" Content="GitHub" FontSize="12" Click="Button_Click"/>
             </Grid>
         </Border>
+    </Viewbox>
+
 </Window>

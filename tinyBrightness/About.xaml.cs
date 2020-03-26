@@ -22,11 +22,16 @@ namespace tinyBrightness
         public About()
         {
             InitializeComponent();
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            DateTime buildDate = new DateTime(2000, 1, 1)
+                                    .AddDays(version.Build).AddSeconds(version.Revision * 2);
+            string displayableVersion = $"{version} ({buildDate})";
+            Version_Text.Text = displayableVersion;
         }
 
-        private void Window_ContentRendered(object sender, EventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            InvalidateVisual();
+            System.Diagnostics.Process.Start("https://github.com/nik9play/tinyBrightness");
         }
     }
 }
