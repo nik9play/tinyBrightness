@@ -10,7 +10,7 @@ namespace tinyBrightness
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -81,7 +81,7 @@ namespace tinyBrightness
         private void Window_Start()
         {
             Show();
-
+            Activate();
             Set_Initial_Brightness();
         }
 

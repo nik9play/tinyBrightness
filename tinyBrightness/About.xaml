@@ -10,7 +10,7 @@
         ui:ThemeManager.IsThemeAware="True"
         Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Title="About" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Height="158.6" Width="400">
+        Title="About" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Height="160" Width="400">
     <Viewbox>
         <Border Padding="10" Height="114">
             <Grid>
