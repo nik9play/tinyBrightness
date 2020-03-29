@@ -4,6 +4,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using ScreenTools;
+using IniParser;
+using IniParser.Model;
+using System.IO;
+using NHotkey.Wpf;
+using System.Windows.Input;
+using NHotkey;
 
 namespace tinyBrightness
 {
@@ -76,6 +82,7 @@ namespace tinyBrightness
             Monitor_List_Combobox.SelectedItem = MonitorList[0];
             CurrentMonitor = MonitorList[0].Handle;
             Window_Start();
+            LoadSettings();
         }
 
         private void Window_Start()
@@ -116,6 +123,121 @@ namespace tinyBrightness
         private void About_Click(object sender, RoutedEventArgs e)
         {
             new About().Show();
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            new Settings().Show();
+        }
+
+        private FileIniDataParser parser = new FileIniDataParser();
+
+        private void CreateSettingsFile()
+        {
+            IniData data = new IniData();
+
+            data["Hotkeys"]["HotkeysEnable"] = "1";
+            data["Hotkeys"]["HotkeyUp"] = "Ctrl+Shift+Add";
+            data["Hotkeys"]["HotkeyDown"] = "Ctrl+Shift+Subtract";
+
+            parser.WriteFile("tinyBrightness.ini", data);
+        }
+
+        class Keys
+        {
+            public ModifierKeys Modifiers;
+            public Key MainKey;
+        }
+
+        private Keys GetKeys(string HotkeyString)
+        {
+            string[] HotkeyArray = HotkeyString.Split('+');
+
+            Keys keys = new Keys();
+
+            foreach(string Element in HotkeyArray)
+            {
+                switch(Element)
+                {
+                    case "Ctrl":
+                        keys.Modifiers |= ModifierKeys.Control;
+                        break;
+                    case "Alt":
+                        keys.Modifiers |= ModifierKeys.Alt;
+                        break;
+                    case "Shift":
+                        keys.Modifiers |= ModifierKeys.Shift;
+                        break;
+                    default:
+                        Enum.TryParse(Element, out keys.MainKey);
+                        break;
+                }
+            }
+
+            return keys;
+        }
+
+        public void LoadSettings()
+        {
+            if (!File.Exists("tinyBrightness.ini"))
+            {
+                CreateSettingsFile();
+            }
+            else
+            {
+                try
+                {
+                    IniData data = parser.ReadFile("tinyBrightness.ini");
+                    if (data["Hotkeys"]["HotkeysEnable"] == "1")
+                    {
+                        //brightness up
+                        string BrightnessUpString = data["Hotkeys"]["HotkeyUp"];
+                        Keys BrightnessUpKeys = GetKeys(BrightnessUpString);
+                        HotkeyManager.Current.AddOrReplace("BrightnessUp", BrightnessUpKeys.MainKey, BrightnessUpKeys.Modifiers, OnBrightnessUp);
+
+                        //brightness down
+                        string BrightnessDownString = data["Hotkeys"]["HotkeyDown"];
+                        Keys BrightnessDownKeys = GetKeys(BrightnessDownString);
+                        HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
+                    }
+                }
+                catch
+                {
+                    CreateSettingsFile();
+                }
+            }
+        }
+
+        private void OnBrightnessUp(object sender, HotkeyEventArgs e)
+        {
+            DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
+
+            double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
+
+            if (CurrentBrightness <= 0.9)
+            {
+                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness + 0.1);
+            }
+            else if (CurrentBrightness < 1)
+            {
+                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 1);
+            }
+        }
+
+        private void OnBrightnessDown(object sender, HotkeyEventArgs e)
+        {
+            DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
+
+            double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
+
+            if (CurrentBrightness >= 0.1)
+            {
+                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness - 0.1);
+            }
+            else if (CurrentBrightness > 0)
+            {
+                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 0);
+            }
         }
     }
 }

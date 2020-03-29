@@ -24,20 +24,23 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
          
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
-
+    <Window.InputBindings>
+        <KeyBinding Gesture="" Command="{Binding IncrementCommand}"
+                    HotkeyManager.RegisterGlobalHotkey="True" />
+    </Window.InputBindings>
     <Grid Width="300" x:Name="Main_Grid" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="38"></RowDefinition>
+            <RowDefinition Height="32"></RowDefinition>
             <RowDefinition Height="48"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Grid.ColumnSpan="2" Margin="3">
-            <ComboBox x:Name="Monitor_List_Combobox" HorizontalAlignment="Stretch" DisplayMemberPath="name" 
-                      SelectedValuePath="Handle" SelectionChanged="Monitor_List_Combobox_SelectionChanged"/>
+            <ComboBox Padding="5" x:Name="Monitor_List_Combobox" HorizontalAlignment="Stretch" DisplayMemberPath="name" 
+                      SelectedValuePath="Handle" SelectionChanged="Monitor_List_Combobox_SelectionChanged" FontSize="12" BorderThickness="0" Background="Transparent"/>
         </Border>
         
         <Canvas Grid.Row="1" Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -51,6 +54,7 @@
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="About" Click="About_Click"/>
+                    <MenuItem Header="Settings" Click="Settings_Click"/>
                     <MenuItem Header="Update Monitors" Click="Window_Loaded"/>
                     <MenuItem Header="Exit" Click="Exit_Click"/>
                 </ContextMenu>
