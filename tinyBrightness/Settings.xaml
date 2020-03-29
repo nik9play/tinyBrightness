@@ -1,0 +1,36 @@
+﻿<fw:AcrylicWindow 
+                x:Class="tinyBrightness.Settings"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:tinyBrightness"
+                mc:Ignorable="d"
+                Loaded="AcrylicWindow_Loaded"
+                xmlns:ui="http://schemas.modernwpf.com/2019"
+                AcrylicWindowStyle="Normal"
+                Title="Settings" SizeToContent="WidthAndHeight"
+                xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" ResizeMode="NoResize">
+    <Grid Margin="10">
+        <ui:SimpleStackPanel Spacing="5">
+            <ui:ToggleSwitch
+                            x:Name="RunSwitch"
+                            Header="Run at login"
+                            OffContent="Disable"
+                            OnContent="Enable"
+                            Toggled="RunSwitch_Toggled"/>
+            <Separator />
+            <ui:ToggleSwitch
+                            x:Name="HotkeysSwitch"
+                            Header="Hotkeys"
+                            OffContent="Disable"
+                            OnContent="Enable"
+                            Toggled="HotkeysSwitch_Toggled"/>
+            <TextBlock MaxWidth="250" TextWrapping="Wrap">Hotkeys will change brightness on monitor on which the cursor is located.</TextBlock>
+            <TextBox TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+            <TextBox TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+            <TextBlock Text="To apply changes, please restart the app."/>
+            <Button Click="Button_Click" Content="Restart" FontSize="12" HorizontalAlignment="Right" />
+        </ui:SimpleStackPanel>
+    </Grid>
+</fw:AcrylicWindow>
