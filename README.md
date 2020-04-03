@@ -1,5 +1,4 @@
-# tinyBrightness
-![animation](https://raw.githubusercontent.com/nik9play/tinyBrightness/master/presentation.gif)
+<p align="center"><img src="https://raw.githubusercontent.com/nik9play/tinyBrightness/master/presentation.gif" /></p>
 
 [![Download](https://img.shields.io/github/downloads/nik9play/tinyBrightness/latest/total?style=flat-square)](https://github.com/nik9play/tinyBrightness/releases) 
 
