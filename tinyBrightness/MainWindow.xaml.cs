@@ -212,15 +212,22 @@ namespace tinyBrightness
         {
             DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
-            double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
+            try
+            {
+                double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
 
-            if (CurrentBrightness <= 0.9)
-            {
-                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness + 0.1);
+                if (CurrentBrightness <= 0.9)
+                {
+                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness + 0.1);
+                }
+                else if (CurrentBrightness < 1)
+                {
+                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 1);
+                }
             }
-            else if (CurrentBrightness < 1)
+            catch
             {
-                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 1);
+
             }
         }
 
@@ -228,15 +235,22 @@ namespace tinyBrightness
         {
             DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
-            double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
+            try
+            {
+                double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
 
-            if (CurrentBrightness >= 0.1)
-            {
-                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness - 0.1);
+                if (CurrentBrightness >= 0.1)
+                {
+                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness - 0.1);
+                }
+                else if (CurrentBrightness > 0)
+                {
+                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 0);
+                }
             }
-            else if (CurrentBrightness > 0)
+            catch
             {
-                DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 0);
+
             }
         }
     }
