@@ -60,6 +60,7 @@ namespace tinyBrightness
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateMonitorList();
+            SetWindowPosition();
             Show();
             Activate();
             Set_Initial_Brightness();
