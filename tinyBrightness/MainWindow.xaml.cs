@@ -10,6 +10,7 @@ using System.IO;
 using NHotkey.Wpf;
 using System.Windows.Input;
 using NHotkey;
+using System.Threading.Tasks;
 
 namespace tinyBrightness
 {
@@ -58,11 +59,23 @@ namespace tinyBrightness
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MonitorList.Clear();
+            UpdateMonitorList();
+            Show();
+            Activate();
+            Set_Initial_Brightness();
+            LoadSettings();
+        }
 
+        private void SetWindowPosition()
+        {
             var desktopWorkingArea = Screen.GetWorkingArea(System.Windows.Forms.Control.MousePosition);
             Left = desktopWorkingArea.Right - Width;
             Top = desktopWorkingArea.Bottom - Height;
+        }
+
+        private void UpdateMonitorList()
+        {
+            MonitorList.Clear();
 
             foreach (Screen screen in Screen.AllScreens)
             {
@@ -81,17 +94,7 @@ namespace tinyBrightness
             Monitor_List_Combobox.ItemsSource = MonitorList;
             Monitor_List_Combobox.SelectedItem = MonitorList[0];
             CurrentMonitor = MonitorList[0].Handle;
-            Window_Start();
-            LoadSettings();
         }
-
-        private void Window_Start()
-        {
-            Show();
-            Activate();
-            Set_Initial_Brightness();
-        }
-
 
         private void Slider_Brightness_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
@@ -179,6 +182,9 @@ namespace tinyBrightness
 
         public void LoadSettings()
         {
+            Main_Grid.PreviewMouseWheel += (sender, e)
+                                        => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
+
             if (!File.Exists("tinyBrightness.ini"))
             {
                 CreateSettingsFile();
@@ -252,6 +258,41 @@ namespace tinyBrightness
             {
 
             }
+        }
+
+        private DebounceDispatcher debounceTimer = new DebounceDispatcher();
+
+        private void Slider_Brightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            PercentText.Text = Convert.ToInt32(((Slider)sender).Value).ToString();
+
+            debounceTimer.Throttle(100, (p) =>
+            {
+                try
+                {
+                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
+                }
+                catch
+                {
+
+                }
+            });
+        }
+
+        private void TaskbarIcon_TrayLeftMouseUp(object sender, RoutedEventArgs e)
+        {
+            SetWindowPosition();
+            Show();
+            Activate();
+            Set_Initial_Brightness();
+        }
+
+        private void UpdateMonitors_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateMonitorList();
+            SetWindowPosition();
+            Show();
+            Activate();
         }
     }
 }
