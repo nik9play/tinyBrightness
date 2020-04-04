@@ -22,7 +22,7 @@
         NoiseOpacity="0.021"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-         
+        AllowsTransparency="True"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
     <Window.InputBindings>
         <KeyBinding Gesture="" Command="{Binding IncrementCommand}"
@@ -32,13 +32,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="46"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"></RowDefinition>
             <RowDefinition Height="48"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Grid.ColumnSpan="2" Margin="3">
+        <Border Grid.Row="0" Grid.ColumnSpan="3" Margin="3">
             <ComboBox Padding="5" x:Name="Monitor_List_Combobox" HorizontalAlignment="Stretch" DisplayMemberPath="name" 
                       SelectedValuePath="Handle" SelectionChanged="Monitor_List_Combobox_SelectionChanged" FontSize="12" BorderThickness="0" Background="Transparent"/>
         </Border>
@@ -46,19 +47,22 @@
         <Canvas Grid.Row="1" Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Path Fill="{DynamicResource SystemControlPageTextBaseHighBrush}" Data="M3.55,18.54L4.96,19.95L6.76,18.16L5.34,16.74M11,22.45C11.32,22.45 13,22.45 13,22.45V19.5H11M12,5.5A6,6 0 0,0 6,11.5A6,6 0 0,0 12,17.5A6,6 0 0,0 18,11.5C18,8.18 15.31,5.5 12,5.5M20,12.5H23V10.5H20M17.24,18.16L19.04,19.95L20.45,18.54L18.66,16.74M20.45,4.46L19.04,3.05L17.24,4.84L18.66,6.26M13,0.55H11V3.5H13M4,10.5H1V12.5H4M6.76,4.84L4.96,3.05L3.55,4.46L5.34,6.26L6.76,4.84Z" />
         </Canvas>
-        <Slider IsMoveToPointEnabled="True" Grid.Row="1" HorizontalAlignment="Left" x:Name="Slider_Brightness" MouseLeftButtonUp="Slider_Brightness_MouseLeftButtonUp" Thumb.DragCompleted="Slider_Brightness_DragCompleted" AutoToolTipPlacement="TopLeft" Grid.Column="1" Width="240" Maximum="100" VerticalAlignment="Center"/>
+        <Slider IsMoveToPointEnabled="True" Grid.Row="1" x:Name="Slider_Brightness"
+                AutoToolTipPlacement="None" Grid.Column="1" Maximum="100" VerticalAlignment="Center"
+                ValueChanged="Slider_Brightness_ValueChanged" SmallChange="2"/>
         <tb:TaskbarIcon
                 IconSource="pack://application:,,,/Icons/icon.ico"
                 ToolTipText="tinyBrightness"
-                TrayLeftMouseUp="Window_Loaded">
+                TrayLeftMouseUp="TaskbarIcon_TrayLeftMouseUp">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="About" Click="About_Click"/>
                     <MenuItem Header="Settings" Click="Settings_Click"/>
-                    <MenuItem Header="Update Monitors" Click="Window_Loaded"/>
+                    <MenuItem Header="Update Monitors" Click="UpdateMonitors_Click"/>
                     <MenuItem Header="Exit" Click="Exit_Click"/>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
+        <TextBlock x:Name="PercentText" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">100</TextBlock>
     </Grid>
 </fw:AcrylicWindow>
