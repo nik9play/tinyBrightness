@@ -26,6 +26,8 @@ namespace tinyBrightness
             }
 
             MainWindow mainWindow = new MainWindow();
+
+            mainWindow.LoadSettings();
 /*            if (!startMinimized)
             {
                 mainWindow.Visibility = Visibility.Visible;
