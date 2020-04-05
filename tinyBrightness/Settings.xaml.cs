@@ -11,7 +11,7 @@ namespace tinyBrightness
     /// <summary>
     /// Логика взаимодействия для Settings.xaml
     /// </summary>
-    public partial class Settings
+    public partial class Settings : Window
     {
         public Settings()
         {
@@ -63,12 +63,9 @@ namespace tinyBrightness
             IniData data = parser.ReadFile("tinyBrightness.ini");
 
             if (HotkeysSwitch.IsOn)
-            {
-                data["Hotkeys"]["HotkeysEnable"] = "1";
-            } else
-            {
+                data["Hotkeys"]["HotkeysEnable"] = "1"; 
+            else
                 data["Hotkeys"]["HotkeysEnable"] = "0";
-            }
             parser.WriteFile("tinyBrightness.ini", data);
         }
 
@@ -83,9 +80,7 @@ namespace tinyBrightness
             RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (rk.GetValue("tinyBrightness", null) != null)
-            {
                 RunSwitch.IsOn = true;
-            }
 
             IniData data = parser.ReadFile("tinyBrightness.ini");
 
@@ -93,9 +88,10 @@ namespace tinyBrightness
             BrightnessDownTextbox.Text = data["Hotkeys"]["HotkeyDown"];
 
             if (data["Hotkeys"]["HotkeysEnable"] == "1")
-            {
                 HotkeysSwitch.IsOn = true;
-            }
+
+            if (data["Misc"]["Blur"] == "1")
+                BlurSwitch.IsOn = true;
         }
 
         private void BrightnessUpTextbox_TextChanged(object sender, TextChangedEventArgs e)
@@ -134,6 +130,18 @@ namespace tinyBrightness
                 rk.SetValue("tinyBrightness", Application.ResourceAssembly.Location + " --silent");
             else
                 rk.DeleteValue("tinyBrightness", false);
+        }
+
+        private void BlurSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            IniData data = parser.ReadFile("tinyBrightness.ini");
+
+            if (BlurSwitch.IsOn)
+                data["Misc"]["Blur"] = "1";
+            else
+                data["Misc"]["Blur"] = "0";
+
+            parser.WriteFile("tinyBrightness.ini", data);
         }
     }
 }

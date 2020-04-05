@@ -10,18 +10,21 @@ using System.IO;
 using NHotkey.Wpf;
 using System.Windows.Input;
 using NHotkey;
-using System.Threading.Tasks;
+using SourceChord.FluentWPF;
 
 namespace tinyBrightness
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            Main_Grid.PreviewMouseWheel += (sender, e)
+                                        => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
         }
 
         class MONITOR
@@ -64,7 +67,6 @@ namespace tinyBrightness
             Show();
             Activate();
             Set_Initial_Brightness();
-            LoadSettings();
         }
 
         private void SetWindowPosition()
@@ -143,8 +145,10 @@ namespace tinyBrightness
             data["Hotkeys"]["HotkeysEnable"] = "1";
             data["Hotkeys"]["HotkeyUp"] = "Ctrl+Shift+Add";
             data["Hotkeys"]["HotkeyDown"] = "Ctrl+Shift+Subtract";
-
+            data["Misc"]["Blur"] = "1";
             parser.WriteFile("tinyBrightness.ini", data);
+
+            LoadSettings();
         }
 
         class Keys
@@ -183,9 +187,6 @@ namespace tinyBrightness
 
         public void LoadSettings()
         {
-            Main_Grid.PreviewMouseWheel += (sender, e)
-                                        => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
-
             if (!File.Exists("tinyBrightness.ini"))
             {
                 CreateSettingsFile();
@@ -207,9 +208,15 @@ namespace tinyBrightness
                         Keys BrightnessDownKeys = GetKeys(BrightnessDownString);
                         HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
                     }
+
+                    if (data["Misc"]["Blur"] == "1")
+                    {
+                        AcrylicWindow.SetEnabled(this, true);
+                    }
                 }
                 catch
                 {
+                    System.Windows.MessageBox.Show("Settings file is corrupted. Creating new.", "tinyBrightness");
                     CreateSettingsFile();
                 }
             }
