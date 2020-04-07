@@ -26,7 +26,6 @@ namespace tinyBrightness
             InitializeComponent();
 
             AdaptIconToTheme();
-
             Main_Grid.PreviewMouseWheel += (sender, e)
                                         => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
         }
@@ -35,7 +34,9 @@ namespace tinyBrightness
         {
             string CurrentTheme = SystemTheme.WindowsTheme.ToString();
 
-            if (CurrentTheme == "Dark")
+            if (Environment.OSVersion.Version.Major != 10)
+                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
+            else if (CurrentTheme == "Dark")
                 TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
             else if (CurrentTheme == "Light")
                 TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/darkIcon.ico"));
@@ -229,7 +230,7 @@ namespace tinyBrightness
                         HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
                     }
 
-                    if (data["Misc"]["Blur"] == "1")
+                    if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
                     {
                         Background = null;
                         Opacity = 1;

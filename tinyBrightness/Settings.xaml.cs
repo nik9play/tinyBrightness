@@ -90,8 +90,11 @@ namespace tinyBrightness
             if (data["Hotkeys"]["HotkeysEnable"] == "1")
                 HotkeysSwitch.IsOn = true;
 
-            if (data["Misc"]["Blur"] == "1")
+            if (data["Misc"]["Blur"] == "1" && System.Environment.OSVersion.Version.Major == 10)
                 BlurSwitch.IsOn = true;
+
+            if (System.Environment.OSVersion.Version.Major != 10)
+                BlurSwitch.IsEnabled = false;
         }
 
         private void BrightnessUpTextbox_TextChanged(object sender, TextChangedEventArgs e)
