@@ -12,14 +12,14 @@
         ui:ThemeManager.IsThemeAware="True"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
-        Opacity="0.85"
         BorderThickness="1,1,0,0"
         BorderBrush="#59878787"
         Title="MainWindow"
         ShowInTaskbar="False"
-        Visibility="Hidden"
+        Visibility="Visible"
         Deactivated="Window_Deactivated"
         Topmost="True"
+        Opacity="0.85"
         fw:AcrylicWindow.NoiseOpacity="0.021"
         fw:AcrylicWindow.AcrylicWindowStyle="None"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
@@ -53,9 +53,10 @@
                 AutoToolTipPlacement="None" Grid.Column="1" Maximum="100" VerticalAlignment="Center"
                 ValueChanged="Slider_Brightness_ValueChanged" SmallChange="2"/>
         <tb:TaskbarIcon
-                IconSource="pack://application:,,,/Icons/icon.ico"
-                ToolTipText="tinyBrightness"
-                TrayLeftMouseUp="TaskbarIcon_TrayLeftMouseUp">
+            IconSource="pack://application:,,,/Icons/icon.ico"
+            ToolTipText="tinyBrightness"
+            TrayLeftMouseUp="TaskbarIcon_TrayLeftMouseUp"
+            x:Name="TrayIcon">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="About" Click="About_Click"/>

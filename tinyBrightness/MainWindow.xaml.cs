@@ -11,6 +11,8 @@ using NHotkey.Wpf;
 using System.Windows.Input;
 using NHotkey;
 using SourceChord.FluentWPF;
+using ModernWpf;
+using System.Windows.Media.Imaging;
 
 namespace tinyBrightness
 {
@@ -23,8 +25,22 @@ namespace tinyBrightness
         {
             InitializeComponent();
 
+            AdaptIconToTheme();
+
             Main_Grid.PreviewMouseWheel += (sender, e)
                                         => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
+        }
+
+        public void AdaptIconToTheme()
+        {
+            string CurrentTheme = SystemTheme.WindowsTheme.ToString();
+
+            if (CurrentTheme == "Dark")
+                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
+            else if (CurrentTheme == "Light")
+                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/darkIcon.ico"));
+            else
+                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/icon.ico"));
         }
 
         class MONITOR
@@ -50,6 +66,9 @@ namespace tinyBrightness
             try
             {
                 Brightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor) * 100;
+
+                Slider_Brightness.IsEnabled = true;
+                Main_Grid.ToolTip = null;
             }
             catch
             {
@@ -58,6 +77,7 @@ namespace tinyBrightness
             }
 
             Slider_Brightness.Value = Brightness;
+            PercentText.Text = Brightness.ToString();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -211,6 +231,8 @@ namespace tinyBrightness
 
                     if (data["Misc"]["Blur"] == "1")
                     {
+                        Background = null;
+                        Opacity = 1;
                         AcrylicWindow.SetEnabled(this, true);
                     }
                 }
@@ -290,14 +312,15 @@ namespace tinyBrightness
         private void TaskbarIcon_TrayLeftMouseUp(object sender, RoutedEventArgs e)
         {
             SetWindowPosition();
+            Set_Initial_Brightness();
             Show();
             Activate();
-            Set_Initial_Brightness();
         }
 
         private void UpdateMonitors_Click(object sender, RoutedEventArgs e)
         {
             UpdateMonitorList();
+            Set_Initial_Brightness();
             SetWindowPosition();
             Show();
             Activate();
