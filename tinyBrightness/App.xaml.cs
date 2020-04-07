@@ -1,13 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Management;
-using System.Security.Principal;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 
 namespace tinyBrightness
@@ -27,11 +18,12 @@ namespace tinyBrightness
 
             MainWindow mainWindow = new MainWindow();
 
+            if (startMinimized)
+                mainWindow.Visibility = Visibility.Hidden;
+
             mainWindow.LoadSettings();
-/*            if (!startMinimized)
-            {
-                mainWindow.Visibility = Visibility.Visible;
-            }*/
+
+            SourceChord.FluentWPF.SystemTheme.ThemeChanged += (senderIcon, eIcon) => mainWindow.AdaptIconToTheme();
         }
     }
 }
