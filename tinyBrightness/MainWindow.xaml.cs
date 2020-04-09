@@ -149,12 +149,16 @@ namespace tinyBrightness
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
-            new About().Show();
+            var Win = new About();
+            Win.Owner = this;
+            Win.Show();
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            new Settings().Show();
+            var Win = new Settings();
+            Win.Owner = this;
+            Win.Show();
         }
 
         private FileIniDataParser parser = new FileIniDataParser();
@@ -206,7 +210,7 @@ namespace tinyBrightness
             return keys;
         }
 
-        public void SetHotkeysByStrings(string UpString, string DownString)
+        private void SetHotkeysByStrings(string UpString, string DownString)
         {
             //brightness up
             string BrightnessUpString = UpString;
