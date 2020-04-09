@@ -206,6 +206,19 @@ namespace tinyBrightness
             return keys;
         }
 
+        public void SetHotkeysByStrings(string UpString, string DownString)
+        {
+            //brightness up
+            string BrightnessUpString = UpString;
+            Keys BrightnessUpKeys = GetKeys(BrightnessUpString);
+            HotkeyManager.Current.AddOrReplace("BrightnessUp", BrightnessUpKeys.MainKey, BrightnessUpKeys.Modifiers, OnBrightnessUp);
+
+            //brightness down
+            string BrightnessDownString = DownString;
+            Keys BrightnessDownKeys = GetKeys(BrightnessDownString);
+            HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
+        }
+
         public void LoadSettings()
         {
             if (!File.Exists("tinyBrightness.ini"))
@@ -217,18 +230,9 @@ namespace tinyBrightness
                 try
                 {
                     IniData data = parser.ReadFile("tinyBrightness.ini");
-                    if (data["Hotkeys"]["HotkeysEnable"] == "1")
-                    {
-                        //brightness up
-                        string BrightnessUpString = data["Hotkeys"]["HotkeyUp"];
-                        Keys BrightnessUpKeys = GetKeys(BrightnessUpString);
-                        HotkeyManager.Current.AddOrReplace("BrightnessUp", BrightnessUpKeys.MainKey, BrightnessUpKeys.Modifiers, OnBrightnessUp);
 
-                        //brightness down
-                        string BrightnessDownString = data["Hotkeys"]["HotkeyDown"];
-                        Keys BrightnessDownKeys = GetKeys(BrightnessDownString);
-                        HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
-                    }
+                    if (data["Hotkeys"]["HotkeysEnable"] == "1")
+                        SetHotkeysByStrings(data["Hotkeys"]["HotkeyUp"], data["Hotkeys"]["HotkeyDown"]);
 
                     if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
                     {
