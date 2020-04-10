@@ -13,6 +13,7 @@ using NHotkey;
 using SourceChord.FluentWPF;
 using ModernWpf;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace tinyBrightness
 {
@@ -136,45 +137,13 @@ namespace tinyBrightness
             Hide();
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Application.Current.Shutdown();
-        }
-
         private void Monitor_List_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentMonitor = MonitorList[Monitor_List_Combobox.SelectedIndex].Handle;
             Set_Initial_Brightness();
         }
 
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
-            var Win = new About();
-            Win.Owner = this;
-            Win.Show();
-        }
-
-        private void Settings_Click(object sender, RoutedEventArgs e)
-        {
-            var Win = new Settings();
-            Win.Owner = this;
-            Win.Show();
-        }
-
-        private FileIniDataParser parser = new FileIniDataParser();
-
-        private void CreateSettingsFile()
-        {
-            IniData data = new IniData();
-
-            data["Hotkeys"]["HotkeysEnable"] = "1";
-            data["Hotkeys"]["HotkeyUp"] = "Ctrl+Shift+Add";
-            data["Hotkeys"]["HotkeyDown"] = "Ctrl+Shift+Subtract";
-            data["Misc"]["Blur"] = "1";
-            parser.WriteFile("tinyBrightness.ini", data);
-
-            LoadSettings();
-        }
+        #region Hotkeys
 
         class Keys
         {
@@ -223,36 +192,6 @@ namespace tinyBrightness
             HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
         }
 
-        public void LoadSettings()
-        {
-            if (!File.Exists("tinyBrightness.ini"))
-            {
-                CreateSettingsFile();
-            }
-            else
-            {
-                try
-                {
-                    IniData data = parser.ReadFile("tinyBrightness.ini");
-
-                    if (data["Hotkeys"]["HotkeysEnable"] == "1")
-                        SetHotkeysByStrings(data["Hotkeys"]["HotkeyUp"], data["Hotkeys"]["HotkeyDown"]);
-
-                    if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
-                    {
-                        Background = null;
-                        Opacity = 1;
-                        AcrylicWindow.SetEnabled(this, true);
-                    }
-                }
-                catch
-                {
-                    System.Windows.MessageBox.Show("Settings file is corrupted. Creating new.", "tinyBrightness");
-                    CreateSettingsFile();
-                }
-            }
-        }
-
         private void OnBrightnessUp(object sender, HotkeyEventArgs e)
         {
             DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
@@ -299,6 +238,57 @@ namespace tinyBrightness
             }
         }
 
+        #endregion
+
+        #region Settings
+
+        private FileIniDataParser parser = new FileIniDataParser();
+
+        private void CreateSettingsFile()
+        {
+            IniData data = new IniData();
+
+            data["Hotkeys"]["HotkeysEnable"] = "1";
+            data["Hotkeys"]["HotkeyUp"] = "Ctrl+Shift+Add";
+            data["Hotkeys"]["HotkeyDown"] = "Ctrl+Shift+Subtract";
+            data["Misc"]["Blur"] = "1";
+            parser.WriteFile("tinyBrightness.ini", data);
+
+            LoadSettings();
+        }
+
+        public void LoadSettings()
+        {
+            if (!File.Exists("tinyBrightness.ini"))
+            {
+                CreateSettingsFile();
+            }
+            else
+            {
+                try
+                {
+                    IniData data = parser.ReadFile("tinyBrightness.ini");
+
+                    if (data["Hotkeys"]["HotkeysEnable"] == "1")
+                        SetHotkeysByStrings(data["Hotkeys"]["HotkeyUp"], data["Hotkeys"]["HotkeyDown"]);
+
+                    if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
+                    {
+                        Background = null;
+                        Opacity = 1;
+                        AcrylicWindow.SetEnabled(this, true);
+                    }
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show("Settings file is corrupted. Creating new.", "tinyBrightness");
+                    CreateSettingsFile();
+                }
+            }
+        }
+
+        #endregion
+
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
         private void Slider_Brightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -318,6 +308,8 @@ namespace tinyBrightness
             });
         }
 
+        #region Tray
+
         private void TaskbarIcon_TrayLeftMouseUp(object sender, RoutedEventArgs e)
         {
             SetWindowPosition();
@@ -334,5 +326,26 @@ namespace tinyBrightness
             Show();
             Activate();
         }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            var Win = new About();
+            Win.Owner = this;
+            Win.Show();
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            var Win = new Settings();
+            Win.Owner = this;
+            Win.Show();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        #endregion
     }
 }
