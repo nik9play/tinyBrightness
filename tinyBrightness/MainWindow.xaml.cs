@@ -275,7 +275,6 @@ namespace tinyBrightness
                     if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
                     {
                         Background = null;
-                        Opacity = 1;
                         AcrylicWindow.SetEnabled(this, true);
                     }
                 }
