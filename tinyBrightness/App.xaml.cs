@@ -24,6 +24,8 @@ namespace tinyBrightness
             mainWindow.LoadSettings();
 
             SourceChord.FluentWPF.SystemTheme.ThemeChanged += (senderIcon, eIcon) => mainWindow.AdaptIconToTheme();
+
+            new Update().Window_Loaded(false);
         }
     }
 }

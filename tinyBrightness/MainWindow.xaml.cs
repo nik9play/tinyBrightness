@@ -11,9 +11,7 @@ using NHotkey.Wpf;
 using System.Windows.Input;
 using NHotkey;
 using SourceChord.FluentWPF;
-using ModernWpf;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
 
 namespace tinyBrightness
 {
@@ -25,7 +23,7 @@ namespace tinyBrightness
         public MainWindow()
         {
             InitializeComponent();
-
+            
             AdaptIconToTheme();
             Main_Grid.PreviewMouseWheel += (sender, e)
                                         => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
@@ -343,6 +341,11 @@ namespace tinyBrightness
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            new Update().Window_Loaded(true);
         }
 
         #endregion
