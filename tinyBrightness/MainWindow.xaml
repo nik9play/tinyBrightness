@@ -25,10 +25,6 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         AllowsTransparency="True"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
-    <Window.InputBindings>
-        <KeyBinding Gesture="" Command="{Binding IncrementCommand}"
-                    HotkeyManager.RegisterGlobalHotkey="True" />
-    </Window.InputBindings>
     <Grid Width="300" x:Name="Main_Grid" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48"></ColumnDefinition>
