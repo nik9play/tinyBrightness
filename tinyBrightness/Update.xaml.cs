@@ -55,11 +55,12 @@ namespace tinyBrightness
 
                         IniData data = parser.ReadFile("tinyBrightness.ini");
 
+                        VersionLabel.Text = "Version: " + json_res["tag_name"];
+                        ChangeLogUrl = json_res["html_url"].ToString();
+
                         if ((NewVersion > CurrentVersion) && (data["Updates"]["SkipVersion"] != json_res["tag_name"].ToString()))
                         {
-                            VersionLabel.Text = "Version: " + json_res["tag_name"];
                             DescLabel.Text = json_res["name"].ToString();
-                            ChangeLogUrl = json_res["html_url"].ToString();
                             DownloadUrl = json_res["assets"][0]["browser_download_url"].ToString();
                             Show();
                         }
@@ -67,9 +68,10 @@ namespace tinyBrightness
                         {
                             if (IsManualCheck)
                             {
+                                HeadingText.Text = "You are using latest version.";
+                                SkipButton.IsEnabled = false;
+                                DownloadButton.IsEnabled = false;
                                 Show();
-                                MessageBox.Show("You are using latest version", "tinyBrightness Update");
-                                Close();
                             }
                         }
                     }
