@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("tinyBrightness")]
 [assembly: AssemblyDescription("Tiny utility to change monitor brightness via DDC/CI interface.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("megaworld")]
 [assembly: AssemblyProduct("tinyBrightness")]
 [assembly: AssemblyCopyright("megaworld 2020")]
 [assembly: AssemblyTrademark("")]
