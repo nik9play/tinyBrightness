@@ -12,6 +12,7 @@ using System.Windows.Input;
 using NHotkey;
 using SourceChord.FluentWPF;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace tinyBrightness
 {
@@ -31,16 +32,28 @@ namespace tinyBrightness
 
         public void AdaptIconToTheme()
         {
-            string CurrentTheme = SystemTheme.WindowsTheme.ToString();
+            if (Environment.OSVersion.Version.Major == 10)
+            {
+                int releaseId = int.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString());
 
-            if (Environment.OSVersion.Version.Major != 10)
-                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
-            else if (CurrentTheme == "Dark")
-                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
-            else if (CurrentTheme == "Light")
-                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/darkIcon.ico"));
+                if (releaseId >= 1903)
+                {
+                    string CurrentTheme = SystemTheme.WindowsTheme.ToString();
+
+                    if (CurrentTheme == "Dark")
+                        TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
+                    else if (CurrentTheme == "Light")
+                        TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/darkIcon.ico"));
+                }
+                else
+                {
+                    TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
+                }
+            }
             else
+            {
                 TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/icon.ico"));
+            }
         }
 
         class MONITOR

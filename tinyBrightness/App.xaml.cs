@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows;
 
 namespace tinyBrightness
@@ -23,7 +24,14 @@ namespace tinyBrightness
 
             mainWindow.LoadSettings();
 
-            SourceChord.FluentWPF.SystemTheme.ThemeChanged += (senderIcon, eIcon) => mainWindow.AdaptIconToTheme();
+
+            if (Environment.OSVersion.Version.Major == 10)
+            {
+                int releaseId = int.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString());
+
+                if (releaseId >= 1903)
+                    SourceChord.FluentWPF.SystemTheme.ThemeChanged += (senderIcon, eIcon) => mainWindow.AdaptIconToTheme();
+            }
 
             new Update().Window_Loaded(false);
         }
