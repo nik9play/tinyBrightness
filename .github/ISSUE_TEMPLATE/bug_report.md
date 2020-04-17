@@ -21,4 +21,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Software info**
  - OS [If you use Windows 10, please specify update version (e.g. 1903, 1809...)]
+ - Device [Laptop, PC, Tablet, etc.]
+ - Monitor count
+ - Windows scaling [100%, 125%, etc.]
  - Version [e.g. 1.5]
