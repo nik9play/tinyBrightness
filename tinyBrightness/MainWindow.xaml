@@ -27,7 +27,7 @@
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
     <Grid Width="300" x:Name="Main_Grid" Background="Transparent">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48"></ColumnDefinition>
+            <ColumnDefinition Width="46"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="46"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -50,7 +50,7 @@
         <tb:TaskbarIcon
             IconSource="pack://application:,,,/Icons/icon.ico"
             ToolTipText="tinyBrightness"
-            TrayLeftMouseUp="TaskbarIcon_TrayLeftMouseUp"
+            TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseUp"
             x:Name="TrayIcon">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
