@@ -104,9 +104,11 @@ namespace tinyBrightness
 
         private void SetWindowPosition()
         {
+            double factor = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
+
             var desktopWorkingArea = Screen.GetWorkingArea(System.Windows.Forms.Control.MousePosition);
-            Left = desktopWorkingArea.Right - Width;
-            Top = desktopWorkingArea.Bottom - Height;
+            Left = desktopWorkingArea.Right / factor - Width;
+            Top = desktopWorkingArea.Bottom / factor - Height;
         }
 
         private void UpdateMonitorList()
