@@ -19,6 +19,8 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Error Log (if available)**
+
 **Software info**
  - OS [If you use Windows 10, please specify update version (e.g. 1903, 1809...)]
  - Device [Laptop, PC, Tablet, etc.]
