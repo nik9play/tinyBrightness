@@ -1,6 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
+using Ookii.Dialogs.Wpf;
+using System.IO;
 
 namespace tinyBrightness
 {
@@ -34,6 +37,25 @@ namespace tinyBrightness
             }
 
             new Update().Window_Loaded(false);
+        }
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            string path = Directory.GetCurrentDirectory() + "\\tb_ErrorLog_" + DateTime.Now.ToString("dd.MM.yyyy_HH.mm.ss") + ".log";
+
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                sw.WriteLine(e.Exception.StackTrace);
+            }
+
+            CrashReport win = new CrashReport
+            {
+                ExceptionMessage = e.Exception.Message,
+                StackTrace = e.Exception.StackTrace
+            };
+            win.Show();
+
+            e.Handled = true;
         }
     }
 }

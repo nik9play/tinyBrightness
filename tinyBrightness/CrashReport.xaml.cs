@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace tinyBrightness
+{
+    /// <summary>
+    /// Логика взаимодействия для CrashReport.xaml
+    /// </summary>
+    public partial class CrashReport : Window
+    {
+        public CrashReport()
+        {
+            InitializeComponent();
+            DataContext = this;
+        }
+
+        public string ExceptionMessage { get; set; } = "";
+
+        public string StackTrace { get; set; } = "";
+
+        public string StackTracePath { get; set; } = "";
+
+        private void Create_Issue(object sender, RoutedEventArgs e)
+        {
+            string Url = "https://github.com/nik9play/tinyBrightness/issues/new?assignees=&labels=bug&template=bug_report.md&body=";
+            string Body = $@"**Describe the bug**
+A clear and concise description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce the behavior.
+
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Error Log (autofilled)**
+<details>
+<summary>Open stack trace</summary>
+
+```
+{StackTrace}
+```
+</details>
+
+**Software info**
+ - OS [If you use Windows 10, please specify update version (e.g. 1903, 1809...)]
+ - Device [Laptop, PC, Tablet, etc.]
+ - Monitor count
+ - Windows scaling [100 %, 125 %, etc.]
+ - Version [e.g. 1.5]
+";
+
+            System.Diagnostics.Process.Start(Url + HttpUtility.UrlEncode(Body));
+        }
+    }
+}
