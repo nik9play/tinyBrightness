@@ -1,8 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
-using Ookii.Dialogs.Wpf;
 using System.IO;
 
 namespace tinyBrightness
