@@ -22,5 +22,10 @@ namespace tinyBrightness
         {
             System.Diagnostics.Process.Start("https://github.com/nik9play/tinyBrightness");
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            throw new Exception("Expected exception!");
+        }
     }
 }

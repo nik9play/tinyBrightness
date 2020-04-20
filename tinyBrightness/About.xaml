@@ -15,7 +15,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run FontSize="18" Text="tinyBrightness"/><LineBreak/><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
-        <Button Grid.Row="1" Content="GitHub" FontSize="12" Click="Button_Click" HorizontalAlignment="Right"/>
+        <Grid VerticalAlignment="Bottom">
+            <Button Grid.Row="1" Content="(DEV) Crash App" FontSize="12" Click="Button_Click_1" HorizontalAlignment="Left"/>
+            <Button Grid.Row="1" Content="GitHub" FontSize="12" Click="Button_Click" HorizontalAlignment="Right"/>
+        </Grid>
     </Grid>
 
 </Window>
