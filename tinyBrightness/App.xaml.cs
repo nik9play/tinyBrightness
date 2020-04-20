@@ -49,7 +49,8 @@ namespace tinyBrightness
             CrashReport win = new CrashReport
             {
                 ExceptionMessage = e.Exception.Message,
-                StackTrace = e.Exception.StackTrace
+                StackTrace = e.Exception.StackTrace,
+                StackTracePath = path
             };
             win.Show();
 
