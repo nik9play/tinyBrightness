@@ -18,7 +18,7 @@
             <TextBox Height="100" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Text="{Binding StackTrace}" FontFamily="Consolas" FontSize="12"/>
         </ui:SimpleStackPanel>
         <Grid VerticalAlignment="Bottom">
-            <Button Content="Restart"/>
+            <Button Content="Restart" Click="Button_Click"/>
             <Button Click="Create_Issue" Content="Create issue on GitHub" HorizontalAlignment="Right"/>
         </Grid>
     </Grid>
