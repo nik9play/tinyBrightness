@@ -14,7 +14,7 @@
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Oops! tinyBrightness threw unexpected exception..." VerticalAlignment="Top" FontSize="24"/>
             <TextBlock ToolTip="{Binding ExceptionMessage}" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="NoWrap" FontSize="14" TextTrimming="CharacterEllipsis"><Run>Message:</Run> <Run Text="{Binding ExceptionMessage}"></Run></TextBlock>
             <TextBlock FontSize="12">You may not need to restart the application.</TextBlock>
-            <TextBlock FontSize="12" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding StackTracePath}"><Run>The following stack trace saved to </Run> <Run Text="{Binding StackTracePath}"></Run></TextBlock>
+            <TextBlock FontSize="12" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding StackTracePath}"><Run>The following stack trace saved to </Run> <Run MouseLeftButtonDown="Run_MouseLeftButtonDown" Cursor="Hand" Text="{Binding StackTracePath}"></Run></TextBlock>
             <TextBox Height="100" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Text="{Binding StackTrace}" FontFamily="Consolas" FontSize="12"/>
         </ui:SimpleStackPanel>
         <Grid VerticalAlignment="Bottom">

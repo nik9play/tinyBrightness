@@ -60,5 +60,14 @@ If applicable, add screenshots to help explain your problem.
             System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
+
+        private void Run_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("explorer.exe", $"/select, {StackTracePath}");
+            }
+            catch { }
+        }
     }
 }
