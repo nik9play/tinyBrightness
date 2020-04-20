@@ -60,13 +60,14 @@ namespace tinyBrightness
 
         private void HotkeysSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            IniData data = parser.ReadFile("tinyBrightness.ini");
+            IniData data = SettingsController.GetCurrentSettings();
 
             if (HotkeysSwitch.IsOn)
                 data["Hotkeys"]["HotkeysEnable"] = "1"; 
             else
                 data["Hotkeys"]["HotkeysEnable"] = "0";
-            parser.WriteFile("tinyBrightness.ini", data);
+
+            SettingsController.SaveSettings(data);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -82,7 +83,7 @@ namespace tinyBrightness
             if (rk.GetValue("tinyBrightness", null) != null)
                 RunSwitch.IsOn = true;
 
-            IniData data = parser.ReadFile("tinyBrightness.ini");
+            IniData data = SettingsController.GetCurrentSettings();
 
             BrightnessUpTextbox.Text = data["Hotkeys"]["HotkeyUp"];
             BrightnessDownTextbox.Text = data["Hotkeys"]["HotkeyDown"];
@@ -103,11 +104,11 @@ namespace tinyBrightness
                 ((TextBox)sender).Text = "Ctrl+Shift+Add";
             else
             {
-                IniData data = parser.ReadFile("tinyBrightness.ini");
+                IniData data = SettingsController.GetCurrentSettings();
 
                 data["Hotkeys"]["HotkeyUp"] = ((TextBox)sender).Text;
 
-                parser.WriteFile("tinyBrightness.ini", data);
+                SettingsController.SaveSettings(data);
             }
         }
 
@@ -117,11 +118,11 @@ namespace tinyBrightness
                 ((TextBox)sender).Text = "Ctrl+Shift+Subtract";
             else
             {
-                IniData data = parser.ReadFile("tinyBrightness.ini");
+                IniData data = SettingsController.GetCurrentSettings();
 
                 data["Hotkeys"]["HotkeyDown"] = ((TextBox)sender).Text;
 
-                parser.WriteFile("tinyBrightness.ini", data);
+                SettingsController.SaveSettings(data);
             }
         }
 
@@ -137,14 +138,14 @@ namespace tinyBrightness
 
         private void BlurSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            IniData data = parser.ReadFile("tinyBrightness.ini");
+            IniData data = SettingsController.GetCurrentSettings();
 
             if (BlurSwitch.IsOn)
                 data["Misc"]["Blur"] = "1";
             else
                 data["Misc"]["Blur"] = "0";
 
-            parser.WriteFile("tinyBrightness.ini", data);
+            SettingsController.SaveSettings(data);
         }
     }
 }

@@ -254,51 +254,20 @@ namespace tinyBrightness
         #endregion
 
         #region Settings
-
-        private FileIniDataParser parser = new FileIniDataParser();
-
-        private void CreateSettingsFile()
-        {
-            IniData data = new IniData();
-
-            data["Hotkeys"]["HotkeysEnable"] = "1";
-            data["Hotkeys"]["HotkeyUp"] = "Ctrl+Shift+Add";
-            data["Hotkeys"]["HotkeyDown"] = "Ctrl+Shift+Subtract";
-            data["Misc"]["Blur"] = "1";
-            parser.WriteFile("tinyBrightness.ini", data);
-
-            LoadSettings();
-        }
-
         public void LoadSettings()
         {
-            if (!File.Exists("tinyBrightness.ini"))
-            {
-                CreateSettingsFile();
-            }
-            else
-            {
-                try
-                {
-                    IniData data = parser.ReadFile("tinyBrightness.ini");
+            SettingsController.LoadSettings();
+            IniData data = SettingsController.GetCurrentSettings();
 
-                    if (data["Hotkeys"]["HotkeysEnable"] == "1")
-                        SetHotkeysByStrings(data["Hotkeys"]["HotkeyUp"], data["Hotkeys"]["HotkeyDown"]);
+            if (data["Hotkeys"]["HotkeysEnable"] == "1")
+                SetHotkeysByStrings(data["Hotkeys"]["HotkeyUp"], data["Hotkeys"]["HotkeyDown"]);
 
-                    if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
-                    {
-                        Background = null;
-                        AcrylicWindow.SetEnabled(this, true);
-                    }
-                }
-                catch
-                {
-                    System.Windows.MessageBox.Show("Settings file is corrupted. Creating new.", "tinyBrightness");
-                    CreateSettingsFile();
-                }
+            if (data["Misc"]["Blur"] == "1" && Environment.OSVersion.Version.Major == 10)
+            {
+                Background = null;
+                AcrylicWindow.SetEnabled(this, true);
             }
         }
-
         #endregion
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
