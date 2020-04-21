@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="tinyBrightness Update" Height="200" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="tinyBrightness Update" Height="200" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <ui:SimpleStackPanel Spacing="10">
             <WrapPanel>
