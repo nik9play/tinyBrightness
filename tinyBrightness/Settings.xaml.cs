@@ -63,9 +63,15 @@ namespace tinyBrightness
             IniData data = SettingsController.GetCurrentSettings();
 
             if (HotkeysSwitch.IsOn)
-                data["Hotkeys"]["HotkeysEnable"] = "1"; 
+            {
+                data["Hotkeys"]["HotkeysEnable"] = "1";
+                ((MainWindow)Owner).SetHotkeysByStrings(BrightnessUpTextbox.Text, BrightnessDownTextbox.Text);
+            }
             else
+            {
                 data["Hotkeys"]["HotkeysEnable"] = "0";
+                ((MainWindow)Owner).RemoveAllHotkeys();
+            }
 
             SettingsController.SaveSettings(data);
         }
@@ -109,6 +115,8 @@ namespace tinyBrightness
                 data["Hotkeys"]["HotkeyUp"] = ((TextBox)sender).Text;
 
                 SettingsController.SaveSettings(data);
+
+                ((MainWindow)Owner).SetHotkeysByStrings(BrightnessUpTextbox.Text, BrightnessDownTextbox.Text);
             }
         }
 
@@ -123,6 +131,8 @@ namespace tinyBrightness
                 data["Hotkeys"]["HotkeyDown"] = ((TextBox)sender).Text;
 
                 SettingsController.SaveSettings(data);
+
+                ((MainWindow)Owner).SetHotkeysByStrings(BrightnessUpTextbox.Text, BrightnessDownTextbox.Text);
             }
         }
 

@@ -30,13 +30,14 @@
             <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor on which the cursor is located.</TextBlock>
             <TextBox TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
             <TextBox TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+            <Separator />
             <ui:ToggleSwitch
                             x:Name="BlurSwitch"
                             Header="Blur"
                             OffContent="Disable"
                             OnContent="Enable"
                             Toggled="BlurSwitch_Toggled"/>
-            <TextBlock Text="To apply changes, please restart the app." FontSize="12"/>
+            <TextBlock Text="To toggle blur, please restart the app." FontSize="12"/>
         </ui:SimpleStackPanel>
         <Button Click="Button_Click" Content="Restart" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>

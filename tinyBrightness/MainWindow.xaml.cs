@@ -206,8 +206,12 @@ namespace tinyBrightness
             return keys;
         }
 
-        private void SetHotkeysByStrings(string UpString, string DownString)
+        public void SetHotkeysByStrings(string UpString, string DownString)
         {
+            //unbind current bindings
+            HotkeyManager.Current.Remove("BrightnessUp");
+            HotkeyManager.Current.Remove("BrightnessDown");
+
             //brightness up
             string BrightnessUpString = UpString;
             Keys BrightnessUpKeys = GetKeys(BrightnessUpString);
@@ -217,6 +221,12 @@ namespace tinyBrightness
             string BrightnessDownString = DownString;
             Keys BrightnessDownKeys = GetKeys(BrightnessDownString);
             HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
+        }
+
+        public void RemoveAllHotkeys()
+        {
+            HotkeyManager.Current.Remove("BrightnessUp");
+            HotkeyManager.Current.Remove("BrightnessDown");
         }
 
         private void OnBrightnessUp(object sender, HotkeyEventArgs e)
