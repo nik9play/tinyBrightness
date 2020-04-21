@@ -13,6 +13,7 @@ using NHotkey;
 using SourceChord.FluentWPF;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using System.Windows.Media.Animation;
 
 namespace tinyBrightness
 {
@@ -24,7 +25,7 @@ namespace tinyBrightness
         public MainWindow()
         {
             InitializeComponent();
-            
+            DataContext = this;
             AdaptIconToTheme();
             Main_Grid.PreviewMouseWheel += (sender, e)
                                         => Slider_Brightness.Value += Slider_Brightness.SmallChange * e.Delta / 120;
@@ -102,13 +103,25 @@ namespace tinyBrightness
             Set_Initial_Brightness();
         }
 
+        public double TopAnim { get; set; } = 0;
+        public double TopAnimMargin { get; set; } = 0;
+
         private void SetWindowPosition()
         {
             double factor = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
 
             var desktopWorkingArea = Screen.GetWorkingArea(System.Windows.Forms.Control.MousePosition);
             Left = desktopWorkingArea.Right / factor - Width;
-            Top = desktopWorkingArea.Bottom / factor - Height;
+            /*Top = desktopWorkingArea.Bottom / factor - Height;*/
+
+            int AdditionalPixel = 0;
+            if (factor > 1)
+                AdditionalPixel = 1;
+
+            TopAnim = desktopWorkingArea.Bottom / factor - Height + AdditionalPixel;
+            TopAnimMargin = desktopWorkingArea.Bottom / factor - Height + 30 + AdditionalPixel;
+
+            (FindResource("showMe") as Storyboard).Begin(this);
         }
 
         private void UpdateMonitorList()
@@ -147,7 +160,8 @@ namespace tinyBrightness
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            Hide();
+            /*Hide();*/
+            (FindResource("hideMe") as Storyboard).Begin(this);
         }
 
         private void Monitor_List_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)

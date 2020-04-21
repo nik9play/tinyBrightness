@@ -18,13 +18,34 @@
         ShowInTaskbar="False"
         Visibility="Visible"
         Deactivated="Window_Deactivated"
-        Topmost="True"
-        Opacity="0.85"
         fw:AcrylicWindow.NoiseOpacity="0.021"
         fw:AcrylicWindow.AcrylicWindowStyle="None"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         AllowsTransparency="True"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
+    <Window.Resources>
+        <Storyboard x:Key="hideMe">
+            <DoubleAnimation Storyboard.TargetProperty="Top" Duration="0:0:0" From="{Binding TopAnim}" To="{Binding TopAnimMargin}"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="showMe">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetProperty="Top" Duration="0:0:0.3" From="{Binding TopAnimMargin}" To="{Binding TopAnim}">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" From="0.3" To="1">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
     <Grid Width="300" x:Name="Main_Grid" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="46"></ColumnDefinition>
