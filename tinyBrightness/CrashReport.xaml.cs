@@ -65,7 +65,7 @@ If applicable, add screenshots to help explain your problem.
         {
             try
             {
-                System.Diagnostics.Process.Start("explorer.exe", $"/select, {StackTracePath}");
+                System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{StackTracePath}\"");
             }
             catch { }
         }
