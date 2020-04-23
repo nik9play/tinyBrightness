@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using IniParser;
 using IniParser.Model;
 using Microsoft.Win32;
 
@@ -16,9 +17,13 @@ namespace tinyBrightness
         public Settings()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
-        private FileIniDataParser parser = new FileIniDataParser();
+        public ObservableCollection<string> HotkeyPopupPositionList { get; set; } = new ObservableCollection<string> 
+        {
+            "Top Left", "Top Right", "Bottom Left", "Bottom Right"
+        };
 
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -84,6 +89,12 @@ namespace tinyBrightness
 
         private void AcrylicWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            DateTime buildDate = new DateTime(2000, 1, 1)
+                                    .AddDays(version.Build).AddSeconds(version.Revision * 2);
+            string displayableVersion = $"{version} ({buildDate})";
+            Version_Text.Text = displayableVersion;
+
             RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (rk.GetValue("tinyBrightness", null) != null)
@@ -102,6 +113,26 @@ namespace tinyBrightness
 
             if (System.Environment.OSVersion.Version.Major != 10)
                 BlurSwitch.IsEnabled = false;
+
+            if (data["Misc"]["HotkeyPopupDisable"] != "1")
+                HotkeyPopupSwitch.IsOn = true;
+
+            string HotkeyPopupPosition = data["Misc"]["HotkeyPopupPosition"];
+            switch(HotkeyPopupPosition)
+            {
+                case "Bottom Right":
+                case "Bottom Left":
+                case "Top Right":
+                case "Top Left":
+                    HotkeyPopupPositionCombobox.SelectedItem = HotkeyPopupPosition;
+                    break;
+                default:
+                    HotkeyPopupPositionCombobox.SelectedItem = "Top Left";
+                    break;
+            }
+
+            if (data["Updates"]["DisableCheckOnStartup"] != "1")
+                UpdatesSwitch.IsOn = true;
         }
 
         private void BrightnessUpTextbox_TextChanged(object sender, TextChangedEventArgs e)
@@ -158,6 +189,44 @@ namespace tinyBrightness
                 data["Misc"]["Blur"] = "0";
 
             SettingsController.SaveSettings(data);
+        }
+
+        private void UpdatesSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+
+            if (UpdatesSwitch.IsOn)
+                data["Updates"]["DisableCheckOnStartup"] = "0";
+            else
+                data["Updates"]["DisableCheckOnStartup"] = "1";
+
+            SettingsController.SaveSettings(data);
+        }
+
+        private void HotkeyPopupPositionCombobox_Selected(object sender, RoutedEventArgs e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+
+            data["Misc"]["HotkeyPopupPosition"] = HotkeyPopupPositionCombobox.SelectedItem.ToString();
+
+            SettingsController.SaveSettings(data);
+        }
+
+        private void HotkeyPopupSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+
+            if (HotkeyPopupSwitch.IsOn)
+                data["Misc"]["HotkeyPopupDisable"] = "0";
+            else
+                data["Misc"]["HotkeyPopupDisable"] = "1";
+
+            SettingsController.SaveSettings(data);
+        }
+
+        private void CrashApp_Click(object sender, RoutedEventArgs e)
+        {
+            throw new Exception("Expected exception!");
         }
     }
 }

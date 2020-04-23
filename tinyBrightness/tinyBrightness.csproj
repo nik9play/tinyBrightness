@@ -60,6 +60,12 @@
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.FeatherIcons.4.0.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FeatherIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.FeatherIcons.4.0.0\lib\net47\MahApps.Metro.IconPacks.FeatherIcons.dll</HintPath>
+    </Reference>
     <Reference Include="ModernWpf, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernWpfUI.0.8.2\lib\net462\ModernWpf.dll</HintPath>
     </Reference>
@@ -112,6 +118,9 @@
       <DependentUpon>CrashReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="DebounceDispatcher.cs" />
+    <Compile Include="HotkeyPopup.xaml.cs">
+      <DependentUpon>HotkeyPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScreenTools.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -125,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CrashReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HotkeyPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

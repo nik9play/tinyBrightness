@@ -8,37 +8,92 @@
     mc:Ignorable="d"
     Loaded="AcrylicWindow_Loaded"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     ui:WindowHelper.UseModernWindowStyle="True"
     Title="Settings" ResizeMode="NoResize"
     Width="250"
-    Height="460">
-    <Grid Margin="10" x:Name="Main_Grid">
-        <ui:SimpleStackPanel Spacing="5">
-            <ui:ToggleSwitch
+    Height="380">
+    <Grid x:Name="Main_Grid">
+        <TabControl Style="{StaticResource TabControlPivotStyle}">
+            <TabItem>
+                <TabItem.Header>
+                    <iconPacks:FeatherIcons Kind="Sliders"/>
+                </TabItem.Header>
+                <ui:SimpleStackPanel Spacing="5" Margin="0,5">
+                    <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">General</TextBlock>
+                    <Separator />
+                    <ui:ToggleSwitch
                             x:Name="RunSwitch"
                             Header="Run at login"
                             OffContent="Disable"
                             OnContent="Enable"
                             Toggled="RunSwitch_Toggled"/>
-            <Separator />
-            <ui:ToggleSwitch
-                            x:Name="HotkeysSwitch"
-                            Header="Hotkeys"
+                    <ui:ToggleSwitch
+                            x:Name="UpdatesSwitch"
+                            Header="Check for updates on startup"
                             OffContent="Disable"
                             OnContent="Enable"
-                            Toggled="HotkeysSwitch_Toggled"/>
-            <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>
-            <TextBox TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
-            <TextBox TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
-            <Separator />
-            <ui:ToggleSwitch
+                            Toggled="UpdatesSwitch_Toggled"/>
+                </ui:SimpleStackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <iconPacks:FeatherIcons Kind="Monitor"/>
+                </TabItem.Header>
+                <ui:SimpleStackPanel Spacing="5" Margin="0,5">
+                    <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">Appearance</TextBlock>
+                    <Separator />
+                    <ui:ToggleSwitch
+                            x:Name="HotkeyPopupSwitch"
+                            Header="Hotkey Popup"
+                            OffContent="Disable"
+                            OnContent="Enable"
+                            Toggled="HotkeyPopupSwitch_Toggled"/>
+                    <ComboBox SelectionChanged="HotkeyPopupPositionCombobox_Selected" x:Name="HotkeyPopupPositionCombobox" ItemsSource="{Binding HotkeyPopupPositionList}" ui:ControlHelper.Header="Position" HorizontalAlignment="Stretch"></ComboBox>
+                    <ui:ToggleSwitch
                             x:Name="BlurSwitch"
                             Header="Blur"
                             OffContent="Disable"
                             OnContent="Enable"
                             Toggled="BlurSwitch_Toggled"/>
-            <TextBlock Text="To toggle blur, please restart the app." FontSize="12"/>
-        </ui:SimpleStackPanel>
-        <Button Click="Button_Click" Content="Restart" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <TextBlock FontSize="12">
+                        To toggle blur, restart the app.
+                    </TextBlock>
+                    <Button Content="Restart"
+                                            Click="Button_Click" FontSize="12"/>
+                </ui:SimpleStackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <iconPacks:FeatherIcons Kind="Command"/>
+                </TabItem.Header>
+                <ui:SimpleStackPanel Spacing="5" Margin="0,5">
+                    <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">Hotkeys</TextBlock>
+                    <ui:ToggleSwitch
+                            x:Name="HotkeysSwitch"
+                            OffContent="Disable"
+                            OnContent="Enable"
+                            Toggled="HotkeysSwitch_Toggled"/>
+                    <Separator />
+                    
+                    <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>
+                    <TextBox TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+                    <TextBox TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+
+                </ui:SimpleStackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <iconPacks:FeatherIcons Kind="Info"/>
+                </TabItem.Header>
+                <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
+                    <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run FontSize="18" Text="tinyBrightness"/><LineBreak/><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
+                    <ui:HyperlinkButton Content="Github"
+                                        NavigateUri="https://github.com/nik9play/tinyBrightness" />
+                    <ui:HyperlinkButton Content="Crash App"
+                                        Click="CrashApp_Click" />
+                </ui:SimpleStackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
