@@ -229,8 +229,13 @@ namespace tinyBrightness
             HotkeyManager.Current.Remove("BrightnessDown");
         }
 
+        private HotkeyPopup HotkeyPopupWindow = new HotkeyPopup();
+
         private void OnBrightnessUp(object sender, HotkeyEventArgs e)
         {
+            (FindResource("hideMe") as Storyboard).Begin(this);
+
+            IniData data = SettingsController.GetCurrentSettings();
             DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
             try
@@ -239,21 +244,29 @@ namespace tinyBrightness
 
                 if (CurrentBrightness <= 0.9)
                 {
+                    HotkeyPopupWindow.PercentText.Text = ((CurrentBrightness + 0.1) * 100).ToString();
                     DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness + 0.1);
                 }
                 else if (CurrentBrightness < 1)
                 {
+                    HotkeyPopupWindow.PercentText.Text = "100";
                     DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 1);
                 }
-            }
-            catch
-            {
 
+                if (data["Misc"]["HotkeyPopupDisable"] != "1")
+                {
+                    HotkeyPopupWindow.Show();
+                    HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
+                }
             }
+            catch { }
         }
 
         private void OnBrightnessDown(object sender, HotkeyEventArgs e)
         {
+            (FindResource("hideMe") as Storyboard).Begin(this);
+
+            IniData data = SettingsController.GetCurrentSettings();
             DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
             try
@@ -262,17 +275,22 @@ namespace tinyBrightness
 
                 if (CurrentBrightness >= 0.1)
                 {
+                    HotkeyPopupWindow.PercentText.Text = ((CurrentBrightness - 0.1) * 100).ToString();
                     DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness - 0.1);
                 }
                 else if (CurrentBrightness > 0)
                 {
+                    HotkeyPopupWindow.PercentText.Text = "0";
                     DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 0);
                 }
+                   
+                if (data["Misc"]["HotkeyPopupDisable"] != "1")
+                {
+                    HotkeyPopupWindow.Show();
+                    HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
+                }
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         #endregion
@@ -306,10 +324,7 @@ namespace tinyBrightness
                 {
                     DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
                 }
-                catch
-                {
-
-                }
+                catch { }
             });
         }
 
