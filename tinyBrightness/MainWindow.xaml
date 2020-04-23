@@ -75,7 +75,6 @@
             x:Name="TrayIcon">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="About" Click="About_Click"/>
                     <MenuItem Header="Check for updates" Click="Update_Click"/>
                     <MenuItem Header="Settings" Click="Settings_Click"/>
                     <MenuItem Header="Update Monitors" Click="UpdateMonitors_Click"/>
