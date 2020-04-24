@@ -42,6 +42,8 @@ namespace tinyBrightness
             if ((data["Updates"]["DisableCheckOnStartup"] != "1" && !IsManualCheck) || IsManualCheck)
                 using (WebClient client = new WebClient())
                 {
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                     client.Headers.Add("user-agent", "request");
                     client.DownloadStringCompleted += (sender, e) =>
                     {
