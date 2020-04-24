@@ -20,8 +20,8 @@
                     <iconPacks:FeatherIcons Kind="Sliders" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5">
-                    <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">General</TextBlock>
-                    <Separator />
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">General</TextBlock>
+                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
                     <ui:ToggleSwitch
                             x:Name="RunSwitch"
                             Header="Run at login"
@@ -41,8 +41,8 @@
                     <iconPacks:FeatherIcons Kind="Monitor" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5">
-                    <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">Appearance</TextBlock>
-                    <Separator />
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Appearance</TextBlock>
+                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
                     <ui:ToggleSwitch
                             x:Name="HotkeyPopupSwitch"
                             Header="Hotkey Popup"
@@ -68,13 +68,13 @@
                     <iconPacks:FeatherIcons Kind="Command" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5">
-                    <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">Hotkeys</TextBlock>
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Hotkeys</TextBlock>
                     <ui:ToggleSwitch
                             x:Name="HotkeysSwitch"
                             OffContent="Disable"
                             OnContent="Enable"
                             Toggled="HotkeysSwitch_Toggled"/>
-                    <Separator />
+                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
                     
                     <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>
                     <TextBox TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
@@ -87,7 +87,8 @@
                     <iconPacks:FeatherIcons Kind="Info" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
-                    <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run FontSize="18" Text="tinyBrightness"/><LineBreak/><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">tinyBrightness</TextBlock>
+                    <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
                     <ui:HyperlinkButton Content="Github"
                                         NavigateUri="https://github.com/nik9play/tinyBrightness" />
                     <ui:HyperlinkButton Content="Crash App"
