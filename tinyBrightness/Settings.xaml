@@ -17,7 +17,7 @@
         <TabControl Style="{StaticResource TabControlPivotStyle}">
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Sliders"/>
+                    <iconPacks:FeatherIcons Kind="Sliders" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5">
                     <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">General</TextBlock>
@@ -38,7 +38,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Monitor"/>
+                    <iconPacks:FeatherIcons Kind="Monitor" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5">
                     <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">Appearance</TextBlock>
@@ -65,7 +65,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Command"/>
+                    <iconPacks:FeatherIcons Kind="Command" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5">
                     <TextBlock FontSize="18" FontFamily="Segoe UI Semibold">Hotkeys</TextBlock>
@@ -84,7 +84,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Info"/>
+                    <iconPacks:FeatherIcons Kind="Info" Width="24" Height="24"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
                     <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run FontSize="18" Text="tinyBrightness"/><LineBreak/><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
