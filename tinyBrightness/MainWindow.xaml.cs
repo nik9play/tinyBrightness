@@ -253,6 +253,8 @@ namespace tinyBrightness
                     HotkeyPopupWindow.PercentText.Text = "100";
                     DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 1);
                 }
+                else if (CurrentBrightness == 1)
+                    HotkeyPopupWindow.PercentText.Text = "100";
 
                 if (data["Misc"]["HotkeyPopupDisable"] != "1")
                 {
