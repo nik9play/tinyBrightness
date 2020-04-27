@@ -14,6 +14,7 @@ using SourceChord.FluentWPF;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace tinyBrightness
 {
@@ -309,7 +310,20 @@ namespace tinyBrightness
                 Background = null;
                 AcrylicWindow.SetEnabled(this, true);
             }
+
+            UpdateCheckTimer.Tick += (sender, e) =>
+            {
+                new Update().Window_Loaded(false);
+            };
+
+            if (data["Updates"]["DisableCheckEveryDay"] != "1")
+                UpdateCheckTimer.Start();
         }
+
+        public DispatcherTimer UpdateCheckTimer = new DispatcherTimer()
+        {
+            Interval = new TimeSpan(1, 0, 0, 0)
+        };
         #endregion
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();

@@ -111,7 +111,7 @@ namespace tinyBrightness
             if (data["Misc"]["Blur"] == "1" && System.Environment.OSVersion.Version.Major == 10)
                 BlurSwitch.IsOn = true;
 
-            if (System.Environment.OSVersion.Version.Major != 10)
+            if (Environment.OSVersion.Version.Major != 10)
                 BlurSwitch.IsEnabled = false;
 
             if (data["Misc"]["HotkeyPopupDisable"] != "1")
@@ -133,6 +133,9 @@ namespace tinyBrightness
 
             if (data["Updates"]["DisableCheckOnStartup"] != "1")
                 UpdatesSwitch.IsOn = true;
+
+            if (data["Updates"]["DisableCheckEveryDay"] != "1")
+                EveryDayUpdatesSwitch.IsOn = true;
         }
 
         private void BrightnessUpTextbox_TextChanged(object sender, TextChangedEventArgs e)
@@ -199,6 +202,26 @@ namespace tinyBrightness
                 data["Updates"]["DisableCheckOnStartup"] = "0";
             else
                 data["Updates"]["DisableCheckOnStartup"] = "1";
+
+            SettingsController.SaveSettings(data);
+        }
+
+        private void EveryDayUpdatesSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+
+            if (EveryDayUpdatesSwitch.IsOn)
+            {
+                data["Updates"]["DisableCheckEveryDay"] = "0";
+                if (!((MainWindow)Owner).UpdateCheckTimer.IsEnabled)
+                    ((MainWindow)Owner).UpdateCheckTimer.Start();
+            }
+            else
+            {
+                data["Updates"]["DisableCheckEveryDay"] = "1";
+                if (((MainWindow)Owner).UpdateCheckTimer.IsEnabled)
+                    ((MainWindow)Owner).UpdateCheckTimer.Stop();
+            }
 
             SettingsController.SaveSettings(data);
         }

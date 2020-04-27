@@ -34,6 +34,12 @@
                             OffContent="Disable"
                             OnContent="Enable"
                             Toggled="UpdatesSwitch_Toggled"/>
+                    <ui:ToggleSwitch
+                            x:Name="EveryDayUpdatesSwitch"
+                            Header="Check for updates every day"
+                            OffContent="Disable"
+                            OnContent="Enable"
+                            Toggled="EveryDayUpdatesSwitch_Toggled"/>
                 </ui:SimpleStackPanel>
             </TabItem>
             <TabItem>
@@ -59,8 +65,7 @@
                     <TextBlock FontSize="12">
                         To toggle blur, restart the app.
                     </TextBlock>
-                    <Button Content="Restart"
-                                            Click="Button_Click" FontSize="12"/>
+                    <Button Content="Restart" Click="Button_Click" FontSize="12"/>
                 </ui:SimpleStackPanel>
             </TabItem>
             <TabItem>
