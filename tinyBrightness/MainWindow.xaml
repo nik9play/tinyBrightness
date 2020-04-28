@@ -11,9 +11,8 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:ThemeManager.IsThemeAware="True"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Background="{DynamicResource SystemControlBackgroundAltMediumHighBrush}"
-        BorderThickness="1,1,0,0"
-        BorderBrush="#59878787"
+        Background="Transparent"
+        BorderThickness="0"
         Title="MainWindow"
         ShowInTaskbar="False"
         Visibility="Visible"
@@ -46,42 +45,47 @@
             </DoubleAnimation>
         </Storyboard>
     </Window.Resources>
-    <Grid Width="300" x:Name="Main_Grid" Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="46"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="46"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"></RowDefinition>
-            <RowDefinition Height="48"></RowDefinition>
-        </Grid.RowDefinitions>
+    <Border BorderBrush="#59878787" BorderThickness="1,1,0,0" Margin="5,5,0,0">
+        <Border.Effect>
+            <DropShadowEffect Direction="138" Color="Black" Opacity="0.3" ShadowDepth="0" BlurRadius="10"/>
+        </Border.Effect>
+        <Grid Width="300" x:Name="Main_Grid" Background="{DynamicResource SystemControlBackgroundAltMediumHighBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="46"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="46"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"></RowDefinition>
+                <RowDefinition Height="48"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Grid.ColumnSpan="3" Margin="3">
-            <ComboBox Padding="5" x:Name="Monitor_List_Combobox" HorizontalAlignment="Stretch" DisplayMemberPath="name" 
+            <Border Grid.Row="0" Grid.ColumnSpan="3" Margin="3">
+                <ComboBox Padding="5" x:Name="Monitor_List_Combobox" HorizontalAlignment="Stretch" DisplayMemberPath="name" 
                       SelectedValuePath="Handle" SelectionChanged="Monitor_List_Combobox_SelectionChanged" FontSize="12" BorderThickness="0" Background="Transparent"/>
-        </Border>
-        
-        <Canvas Grid.Row="1" Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Path Fill="{DynamicResource SystemControlPageTextBaseHighBrush}" Data="M3.55,18.54L4.96,19.95L6.76,18.16L5.34,16.74M11,22.45C11.32,22.45 13,22.45 13,22.45V19.5H11M12,5.5A6,6 0 0,0 6,11.5A6,6 0 0,0 12,17.5A6,6 0 0,0 18,11.5C18,8.18 15.31,5.5 12,5.5M20,12.5H23V10.5H20M17.24,18.16L19.04,19.95L20.45,18.54L18.66,16.74M20.45,4.46L19.04,3.05L17.24,4.84L18.66,6.26M13,0.55H11V3.5H13M4,10.5H1V12.5H4M6.76,4.84L4.96,3.05L3.55,4.46L5.34,6.26L6.76,4.84Z" />
-        </Canvas>
-        <Slider IsMoveToPointEnabled="True" Grid.Row="1" x:Name="Slider_Brightness"
+            </Border>
+
+            <Canvas Grid.Row="1" Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Path Fill="{DynamicResource SystemControlPageTextBaseHighBrush}" Data="M3.55,18.54L4.96,19.95L6.76,18.16L5.34,16.74M11,22.45C11.32,22.45 13,22.45 13,22.45V19.5H11M12,5.5A6,6 0 0,0 6,11.5A6,6 0 0,0 12,17.5A6,6 0 0,0 18,11.5C18,8.18 15.31,5.5 12,5.5M20,12.5H23V10.5H20M17.24,18.16L19.04,19.95L20.45,18.54L18.66,16.74M20.45,4.46L19.04,3.05L17.24,4.84L18.66,6.26M13,0.55H11V3.5H13M4,10.5H1V12.5H4M6.76,4.84L4.96,3.05L3.55,4.46L5.34,6.26L6.76,4.84Z" />
+            </Canvas>
+            <Slider IsMoveToPointEnabled="True" Grid.Row="1" x:Name="Slider_Brightness"
                 AutoToolTipPlacement="None" Grid.Column="1" Maximum="100" VerticalAlignment="Center"
                 ValueChanged="Slider_Brightness_ValueChanged" SmallChange="2"/>
-        <tb:TaskbarIcon
+            <tb:TaskbarIcon
             IconSource="pack://application:,,,/Icons/icon.ico"
             ToolTipText="tinyBrightness"
             TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseUp"
             x:Name="TrayIcon">
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Check for updates" Click="Update_Click"/>
-                    <MenuItem Header="Settings" Click="Settings_Click"/>
-                    <MenuItem Header="Update Monitors" Click="UpdateMonitors_Click"/>
-                    <MenuItem Header="Exit" Click="Exit_Click"/>
-                </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-        <TextBlock x:Name="PercentText" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">100</TextBlock>
-    </Grid>
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Check for updates" Click="Update_Click"/>
+                        <MenuItem Header="Settings" Click="Settings_Click"/>
+                        <MenuItem Header="Update Monitors" Click="UpdateMonitors_Click"/>
+                        <MenuItem Header="Exit" Click="Exit_Click"/>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon>
+            <TextBlock x:Name="PercentText" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">100</TextBlock>
+        </Grid>
+    </Border>
 </Window>
