@@ -11,12 +11,8 @@ namespace tinyBrightness
         {
             bool startMinimized = false;
             for (int i = 0; i != e.Args.Length; ++i)
-            {
                 if (e.Args[i] == "--silent")
-                {
                     startMinimized = true;
-                }
-            }
 
             MainWindow mainWindow = new MainWindow();
 
