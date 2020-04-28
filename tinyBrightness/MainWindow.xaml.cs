@@ -361,13 +361,6 @@ namespace tinyBrightness
             Activate();
         }
 
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
-            var Win = new About();
-            Win.Owner = this;
-            Win.Show();
-        }
-
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             var Win = new Settings();
