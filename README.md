@@ -1,6 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/nik9play/tinyBrightness/master/presentation.gif" /></p>
 
-[![Download](https://img.shields.io/github/downloads/nik9play/tinyBrightness/latest/total?style=flat-square)](https://github.com/nik9play/tinyBrightness/releases) 
+[![Download](https://img.shields.io/github/downloads/nik9play/tinyBrightness/total?style=flat-square)](https://github.com/nik9play/tinyBrightness/releases) 
 
 ### Tiny utility to change monitor brightness via DDC/CI.
 > Your monitor must support DDC/CI. DDC/CI may also be off, so check monitor settings.
