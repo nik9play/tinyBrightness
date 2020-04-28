@@ -11,7 +11,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:ThemeManager.IsThemeAware="True"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+        Background="{DynamicResource SystemControlBackgroundAltMediumHighBrush}"
         BorderThickness="1,1,0,0"
         BorderBrush="#59878787"
         Title="MainWindow"
