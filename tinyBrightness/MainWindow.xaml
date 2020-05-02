@@ -25,7 +25,7 @@
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None">
     <Window.Resources>
         <Storyboard x:Key="hideMe">
-            <DoubleAnimation Storyboard.TargetProperty="Top" Duration="0:0:0" From="{Binding TopAnim}" To="{Binding TopAnimMargin}"/>
+            <DoubleAnimation Storyboard.TargetProperty="Top" Duration="0:0:0.1" From="{Binding TopAnim}" To="{Binding TopAnimMargin}"/>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
             </ObjectAnimationUsingKeyFrames>
