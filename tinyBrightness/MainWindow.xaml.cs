@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace tinyBrightness
 {
@@ -102,6 +103,9 @@ namespace tinyBrightness
             Set_Initial_Brightness();
         }
 
+        public bool IsAnimationsEnabled => SystemParameters.ClientAreaAnimation &&
+                                                  RenderCapability.Tier > 0;
+
         public double TopAnim { get; set; } = 0;
         public double TopAnimMargin { get; set; } = 0;
 
@@ -120,7 +124,10 @@ namespace tinyBrightness
             TopAnim = desktopWorkingArea.Bottom / factor - Height + AdditionalPixel;
             TopAnimMargin = desktopWorkingArea.Bottom / factor - Height + 30 + AdditionalPixel;
 
-            (FindResource("showMe") as Storyboard).Begin(this);
+            if (IsAnimationsEnabled)
+                (FindResource("showMe") as Storyboard).Begin(this);
+            else
+                (FindResource("showMeWOAnim") as Storyboard).Begin(this);
         }
 
         private void UpdateMonitorList()

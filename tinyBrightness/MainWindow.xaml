@@ -45,6 +45,21 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <Storyboard x:Key="showMeWOAnim">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetProperty="Top" Duration="0:0:0" From="{Binding TopAnim}" To="{Binding TopAnim}">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" From="0.3" To="1">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Window.Resources>
     <Grid Width="300" x:Name="Main_Grid" Background="Transparent">
         <Grid.ColumnDefinitions>
