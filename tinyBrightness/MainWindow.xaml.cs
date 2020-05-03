@@ -370,9 +370,11 @@ namespace tinyBrightness
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
+            SetWindowPosition(); // workaround that prevents the settings window from freezing under certain conditions
             var Win = new Settings();
             Win.Owner = this;
             Win.Show();
+            (FindResource("hideMe") as Storyboard).Begin(this);
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
