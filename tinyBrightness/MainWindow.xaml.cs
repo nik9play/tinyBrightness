@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace tinyBrightness
 {
@@ -138,7 +139,7 @@ namespace tinyBrightness
             {
                 DisplayConfiguration.PHYSICAL_MONITOR mon = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetMonitorByBounds(screen.Bounds))[0];
 
-                string Name = screen.DeviceFriendlyName();
+                string Name = $"{screen.DeviceFriendlyName()} ({screen.DeviceName})";
 
                 if (String.IsNullOrEmpty(Name))
                 {
@@ -325,6 +326,12 @@ namespace tinyBrightness
 
             if (data["Updates"]["DisableCheckEveryDay"] != "1")
                 UpdateCheckTimer.Start();
+
+            //AutoBrightness
+            if (data["AutoBrightness"]["Enabled"] == "1")
+                CheckForSunriset.Start();
+
+            SetupAutoBrightnessTimer();
         }
 
         public DispatcherTimer UpdateCheckTimer = new DispatcherTimer()
@@ -385,6 +392,66 @@ namespace tinyBrightness
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             new Update().Window_Loaded(true);
+        }
+
+        #endregion
+
+        #region AutoBrightness
+        public DispatcherTimer CheckForSunriset = new DispatcherTimer()
+        {
+            Interval = new TimeSpan(0, 1, 0)
+        };
+
+        public void SetupAutoBrightnessTimer()
+        {
+            CheckForSunriset.Tick += (sender, e) =>
+            {
+                double Lat, Lon = 0;
+                double SunsetBrightness = 0.1;
+                double SunriseBrightness = 0.9;
+
+                IniData data = SettingsController.GetCurrentSettings();
+
+                double.TryParse(data["AutoBrightness"]["Lat"], NumberStyles.Any, CultureInfo.InvariantCulture, out Lat);
+                double.TryParse(data["AutoBrightness"]["Lon"], NumberStyles.Any, CultureInfo.InvariantCulture, out Lon);
+
+                double.TryParse(data["AutoBrightness"]["SunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out SunsetBrightness);
+                double.TryParse(data["AutoBrightness"]["SunriseBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out SunriseBrightness);
+
+                string CurrentTime = DateTime.UtcNow.ToString("HH:mm");
+
+                Sunriset.SunriseSunset(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tsunrise, out double tsunset);
+                //Sunrise
+                TimeSpan SunriseTime = TimeSpan.FromHours(tsunrise);
+                string sunriseTimeString = SunriseTime.ToString(@"hh\:mm");
+
+                //Sunset
+                TimeSpan SunsetTime = TimeSpan.FromHours(tsunset);
+                string sunsetTimeString = SunsetTime.ToString(@"hh\:mm");
+
+                if (CurrentTime == sunriseTimeString)
+                {
+                    foreach(MONITOR mon in MonitorList)
+                    {
+                        try
+                        {
+                            DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunriseBrightness);
+                        }
+                        catch { }
+                    }
+                } 
+                else if (CurrentTime == sunsetTimeString)
+                {
+                    foreach (MONITOR mon in MonitorList)
+                    {
+                        try
+                        {
+                            DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunsetBrightness);
+                        }
+                        catch { }
+                    }
+                }
+            };
         }
 
         #endregion
