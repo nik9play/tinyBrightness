@@ -290,17 +290,18 @@ namespace tinyBrightness
                 client.DownloadStringCompleted += (senderW, eW) =>
                 {
                     var xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml(eW.Result);
+                    try
+                    {
+                        xmlDoc.LoadXml(eW.Result);
+                        XmlNodeList LatValue = xmlDoc.GetElementsByTagName("lat");
+                        XmlNodeList LongValue = xmlDoc.GetElementsByTagName("lon");
 
-                    XmlNodeList LatValue = xmlDoc.GetElementsByTagName("lat");
-                    XmlNodeList LongValue = xmlDoc.GetElementsByTagName("lon");
+                        double.TryParse(LatValue[0].InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double LatValueResult);
+                        LatitudeBox.Value = LatValueResult;
 
-                    double.TryParse(LatValue[0].InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double LatValueResult);
-                    LatitudeBox.Value = LatValueResult;
-
-                    double.TryParse(LongValue[0].InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double LongValueResult);
-                    LongitudeBox.Value = LongValueResult;
-
+                        double.TryParse(LongValue[0].InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double LongValueResult);
+                        LongitudeBox.Value = LongValueResult;
+                    } catch { MessageBox.Show("Error while getting location."); }
                     Mouse.OverrideCursor = null;
                 };
 
