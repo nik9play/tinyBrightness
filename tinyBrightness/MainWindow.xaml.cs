@@ -397,6 +397,23 @@ namespace tinyBrightness
         #endregion
 
         #region AutoBrightness
+
+        private void OnPowerChange(object s, PowerModeChangedEventArgs e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+
+            switch (e.Mode)
+            {
+                case PowerModes.Resume:
+                    if (data["AutoBrightness"]["Enabled"] == "1")
+                        CheckForSunriset.Start();
+                    break;
+                case PowerModes.Suspend:
+                    CheckForSunriset.Stop();
+                    break;
+            }
+        }
+
         public DispatcherTimer CheckForSunriset = new DispatcherTimer()
         {
             Interval = new TimeSpan(0, 1, 0)
@@ -404,6 +421,7 @@ namespace tinyBrightness
 
         public void SetupAutoBrightnessTimer()
         {
+            SystemEvents.PowerModeChanged += OnPowerChange;
             CheckForSunriset.Tick += (sender, e) =>
             {
                 double Lat, Lon = 0;
