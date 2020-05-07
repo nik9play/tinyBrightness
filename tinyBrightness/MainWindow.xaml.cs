@@ -139,7 +139,7 @@ namespace tinyBrightness
             {
                 DisplayConfiguration.PHYSICAL_MONITOR mon = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetMonitorByBounds(screen.Bounds))[0];
 
-                string Name = $"{screen.DeviceFriendlyName()} ({screen.DeviceName})";
+                string Name = screen.DeviceFriendlyName();
 
                 if (String.IsNullOrEmpty(Name))
                 {
