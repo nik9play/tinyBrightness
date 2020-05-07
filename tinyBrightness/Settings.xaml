@@ -62,7 +62,7 @@
                             <StackPanel>
                                 <TextBlock
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="HTTP request will be send to http://ip-api.com. Proceed?"
+                                    Text="HTTP request will be sent to http://ip-api.com. Proceed?"
                                     Margin="0,0,0,12" />
                                 <Button
                                     Click="HyperlinkButton_Click"

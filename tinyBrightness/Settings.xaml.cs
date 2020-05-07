@@ -301,7 +301,7 @@ namespace tinyBrightness
 
                         double.TryParse(LongValue[0].InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double LongValueResult);
                         LongitudeBox.Value = LongValueResult;
-                    } catch { MessageBox.Show("Error while getting location."); }
+                    } catch { MessageBox.Show("Error while getting location.", "tinyBrightness", MessageBoxButton.OK, MessageBoxImage.Error); }
                     Mouse.OverrideCursor = null;
                 };
 
