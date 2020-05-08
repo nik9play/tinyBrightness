@@ -116,8 +116,8 @@
                     <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
                     
                     <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>
-                    <TextBox TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
-                    <TextBox TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+                    <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
+                    <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
 
                 </ui:SimpleStackPanel>
             </TabItem>
