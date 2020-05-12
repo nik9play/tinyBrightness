@@ -341,18 +341,28 @@ namespace tinyBrightness
         private void SunriseSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             IniData data = SettingsController.GetCurrentSettings();
-
             data["AutoBrightness"]["SunriseBrightness"] = (((Slider)sender).Value / 100).ToString(CultureInfo.InvariantCulture);
-
             SettingsController.SaveSettings(data);
         }
 
         private void SunsetSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             IniData data = SettingsController.GetCurrentSettings();
-
             data["AutoBrightness"]["SunsetBrightness"] = (((Slider)sender).Value / 100).ToString(CultureInfo.InvariantCulture);
+            SettingsController.SaveSettings(data);
+        }
 
+        private void AstroSunriseSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+            data["AutoBrightness"]["AstroSunriseBrightness"] = (((Slider)sender).Value / 100).ToString(CultureInfo.InvariantCulture);
+            SettingsController.SaveSettings(data);
+        }
+
+        private void AstroSunsetSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            IniData data = SettingsController.GetCurrentSettings();
+            data["AutoBrightness"]["AstroSunsetBrightness"] = (((Slider)sender).Value / 100).ToString(CultureInfo.InvariantCulture);
             SettingsController.SaveSettings(data);
         }
 
@@ -400,7 +410,17 @@ namespace tinyBrightness
             if (double.TryParse(data["AutoBrightness"]["SunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out double SunsetBrightnessValue))
                 SunsetSlider.Value = SunsetBrightnessValue * 100;
             else
-                SunsetSlider.Value = 10;
+                SunsetSlider.Value = 30;
+
+            if (double.TryParse(data["AutoBrightness"]["AstroSunriseBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out double AstroSunriseBrightnessValue))
+                AstroSunriseSlider.Value = AstroSunriseBrightnessValue * 100;
+            else
+                AstroSunriseSlider.Value = 20;
+
+            if (double.TryParse(data["AutoBrightness"]["AstroSunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out double AstroSunsetBrightnessValue))
+                AstroSunsetSlider.Value = AstroSunsetBrightnessValue * 100;
+            else
+                AstroSunsetSlider.Value = 10;
         }
 
         #endregion

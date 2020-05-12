@@ -72,8 +72,15 @@
                         </ui:FlyoutService.Flyout>
                         Get information by IP
                     </Button>
-                    <Slider IsSnapToTickEnabled="True" x:Name="SunriseSlider" ValueChanged="SunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunrise" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                    <Slider IsSnapToTickEnabled="True" x:Name="SunsetSlider" ValueChanged="SunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunset" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                    <ScrollViewer Height="115" Padding="0,0,25,0" Margin="0,5,0,0">
+                        <ui:SimpleStackPanel Spacing="5">
+                            <Slider IsSnapToTickEnabled="True" x:Name="SunriseSlider" ValueChanged="SunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunrise" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="SunsetSlider" ValueChanged="SunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunset" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="AstroSunriseSlider" ValueChanged="AstroSunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dawn" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                            <Slider IsSnapToTickEnabled="True" x:Name="AstroSunsetSlider" ValueChanged="AstroSunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dusk" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+
+                        </ui:SimpleStackPanel>
+                    </ScrollViewer>
                 </ui:SimpleStackPanel>
             </TabItem>
             <TabItem>
