@@ -102,6 +102,21 @@ namespace tinyBrightness
             Show();
             Activate();
             Set_Initial_Brightness();
+
+            IniData data = SettingsController.GetCurrentSettings();
+            DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
+
+            double CurrentBrightness = 0;
+
+            try
+            {
+                CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
+            }
+            catch { }
+
+            HotkeyPopupWindow.PercentText.Text = (CurrentBrightness * 100).ToString();
+            HotkeyPopupWindow.Show();
+            HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
         }
 
         public bool IsAnimationsEnabled => SystemParameters.ClientAreaAnimation &&
@@ -216,17 +231,14 @@ namespace tinyBrightness
         public void SetHotkeysByStrings(string UpString, string DownString)
         {
             //unbind current bindings
-            HotkeyManager.Current.Remove("BrightnessUp");
-            HotkeyManager.Current.Remove("BrightnessDown");
+            RemoveAllHotkeys();
 
             //brightness up
-            string BrightnessUpString = UpString;
-            Keys BrightnessUpKeys = GetKeys(BrightnessUpString);
+            Keys BrightnessUpKeys = GetKeys(UpString);
             HotkeyManager.Current.AddOrReplace("BrightnessUp", BrightnessUpKeys.MainKey, BrightnessUpKeys.Modifiers, OnBrightnessUp);
 
             //brightness down
-            string BrightnessDownString = DownString;
-            Keys BrightnessDownKeys = GetKeys(BrightnessDownString);
+            Keys BrightnessDownKeys = GetKeys(DownString);
             HotkeyManager.Current.AddOrReplace("BrightnessDown", BrightnessDownKeys.MainKey, BrightnessDownKeys.Modifiers, OnBrightnessDown);
         }
 
@@ -398,7 +410,7 @@ namespace tinyBrightness
 
         #region AutoBrightness
 
-        private void OnPowerChange(object s, PowerModeChangedEventArgs e)
+        private void AutoBrightnessOnPowerChange(object s, PowerModeChangedEventArgs e)
         {
             IniData data = SettingsController.GetCurrentSettings();
 
@@ -421,12 +433,14 @@ namespace tinyBrightness
 
         public void SetupAutoBrightnessTimer()
         {
-            SystemEvents.PowerModeChanged += OnPowerChange;
+            SystemEvents.PowerModeChanged += AutoBrightnessOnPowerChange;
             CheckForSunriset.Tick += (sender, e) =>
             {
                 double Lat, Lon = 0;
-                double SunsetBrightness = 0.1;
+                double SunsetBrightness = 0.3;
                 double SunriseBrightness = 0.9;
+                double AstroSunsetBrightness = 0.1;
+                double AstroSunriseBrightness = 0.2;
 
                 IniData data = SettingsController.GetCurrentSettings();
 
@@ -435,37 +449,45 @@ namespace tinyBrightness
 
                 double.TryParse(data["AutoBrightness"]["SunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out SunsetBrightness);
                 double.TryParse(data["AutoBrightness"]["SunriseBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out SunriseBrightness);
+                double.TryParse(data["AutoBrightness"]["AstroSunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out AstroSunsetBrightness);
+                double.TryParse(data["AutoBrightness"]["AstroSunriseBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out AstroSunriseBrightness);
 
                 string CurrentTime = DateTime.UtcNow.ToString("HH:mm");
 
                 Sunriset.SunriseSunset(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tsunrise, out double tsunset);
+
                 //Sunrise
-                TimeSpan SunriseTime = TimeSpan.FromHours(tsunrise);
-                string sunriseTimeString = SunriseTime.ToString(@"hh\:mm");
-
+                string sunriseTimeString = TimeSpan.FromHours(tsunrise).ToString(@"hh\:mm");
                 //Sunset
-                TimeSpan SunsetTime = TimeSpan.FromHours(tsunset);
-                string sunsetTimeString = SunsetTime.ToString(@"hh\:mm");
+                string sunsetTimeString = TimeSpan.FromHours(tsunset).ToString(@"hh\:mm");
 
-                if (CurrentTime == sunriseTimeString)
+                Sunriset.AstronomicalTwilight(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tastrosunrise, out double tastrosunset);
+
+                //AstroSunrise
+                string astroSunriseTimeString = TimeSpan.FromHours(tastrosunrise).ToString(@"hh\:mm");
+                //AstroSunset
+                string astroSunsetTimeString = TimeSpan.FromHours(tastrosunset).ToString(@"hh\:mm");
+
+                foreach (MONITOR mon in MonitorList)
                 {
-                    foreach(MONITOR mon in MonitorList)
+                    if (CurrentTime == sunriseTimeString)
                     {
-                        try
-                        {
-                            DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunriseBrightness);
-                        }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunriseBrightness); }
                         catch { }
                     }
-                } 
-                else if (CurrentTime == sunsetTimeString)
-                {
-                    foreach (MONITOR mon in MonitorList)
+                    else if (CurrentTime == sunsetTimeString)
                     {
-                        try
-                        {
-                            DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunsetBrightness);
-                        }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunsetBrightness); }
+                        catch { }
+                    }
+                    else if (CurrentTime == astroSunriseTimeString)
+                    {
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AstroSunriseBrightness); }
+                        catch { }
+                    }
+                    else if (CurrentTime == astroSunsetTimeString)
+                    {
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AstroSunsetBrightness); }
                         catch { }
                     }
                 }
