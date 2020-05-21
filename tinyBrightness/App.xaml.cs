@@ -9,6 +9,8 @@ namespace tinyBrightness
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+
             bool startMinimized = false;
             for (int i = 0; i != e.Args.Length; ++i)
                 if (e.Args[i] == "--silent")
@@ -29,8 +31,6 @@ namespace tinyBrightness
                 if (releaseId >= 1903)
                     SourceChord.FluentWPF.SystemTheme.ThemeChanged += (senderIcon, eIcon) => mainWindow.AdaptIconToTheme();
             }
-
-            new Update().Window_Loaded(false);
         }
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
