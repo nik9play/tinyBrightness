@@ -14,7 +14,8 @@ namespace tinyBrightness
     {
         public event EventHandler<bool> CheckingComplete;
 
-        public double NewVersion = 0;
+        public int NewVersionMinor = 0;
+        public string NewVersionString = "";
         public string Description = "";
         public string ChangeLogUrl = "";
         public string DownloadUrl = "";
@@ -33,15 +34,16 @@ namespace tinyBrightness
                 {
                     JObject json_res = JObject.Parse(e.Result);
                     Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                    double CurrentVersion = double.Parse(version.Major + "." + version.Minor, NumberStyles.Any, CultureInfo.InvariantCulture);
-                    NewVersion = double.Parse(json_res["tag_name"].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture);
-                    
+                    int CurrentVersionMinor = version.Minor;
+                    NewVersionMinor = int.Parse(json_res["tag_name"].ToString().Split('.')[1]);
+                    NewVersionString = json_res["tag_name"].ToString();
+
                     //1 is exe and 0 is zip
                     DownloadUrl = json_res["assets"][1]["browser_download_url"].ToString();
                     Description = json_res["name"].ToString();
                     ChangeLogUrl = json_res["html_url"].ToString();
 
-                    if ((NewVersion > CurrentVersion) && (data["Updates"]["SkipVersion"] != json_res["tag_name"].ToString()))
+                    if ((NewVersionMinor > CurrentVersionMinor) && (data["Updates"]["SkipVersion"] != json_res["tag_name"].ToString()))
                         OnCheckingCompleted(true);
                     else
                         OnCheckingCompleted(false);

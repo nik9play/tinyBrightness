@@ -366,7 +366,7 @@ namespace tinyBrightness
 
                 if (IsAvailabe)
                 {
-                    TrayIcon.ShowBalloonTip("New Version is Available: " + UpdContr.NewVersion.ToString(CultureInfo.InvariantCulture), UpdContr.Description + " Click here to see more.", new Icon(iconStream), true);
+                    TrayIcon.ShowBalloonTip("New Version is Available: " + UpdContr.NewVersionString, UpdContr.Description + " Click here to see more.", new Icon(iconStream), true);
                 } 
                 else if (!IsAvailabe && IsManual)
                 {

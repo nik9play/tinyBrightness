@@ -36,7 +36,7 @@ namespace tinyBrightness
                     ChangeLogUrl = UpdCtr.ChangeLogUrl;
                     DownloadUrl = UpdCtr.DownloadUrl;
                     Description = DescLabel.Text = UpdCtr.Description;
-                    Version = VersionLabel.Text = UpdCtr.NewVersion.ToString(CultureInfo.InvariantCulture);
+                    Version = VersionLabel.Text = UpdCtr.NewVersionString;
 
                     Show();
                 } 
