@@ -111,6 +111,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoBrightnessSettings.cs" />
     <Compile Include="CrashReport.xaml.cs">
       <DependentUpon>CrashReport.xaml</DependentUpon>
     </Compile>
@@ -124,6 +125,7 @@
     </Compile>
     <Compile Include="SettingsController.cs" />
     <Compile Include="Sunriset.cs" />
+    <Compile Include="SunrisetTools.cs" />
     <Compile Include="Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
     </Compile>

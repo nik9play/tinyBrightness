@@ -460,7 +460,36 @@ namespace tinyBrightness
             {
                 case PowerModes.Resume:
                     if (data["AutoBrightness"]["Enabled"] == "1")
+                    {
                         CheckForSunriset.Start();
+                        TimeSpan CurrentTime = DateTime.UtcNow.TimeOfDay;
+
+                        SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
+
+                        foreach (MONITOR mon in MonitorList)
+                        {
+                            if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDusk()) == 1)
+                            {
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunsetBrightness()); }
+                                catch { }
+                            }
+                            else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunset()) == 1)
+                            {
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunsetBrightness()); }
+                                catch { }
+                            }
+                            else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunrise()) == 1)
+                            {
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunriseBrightness()); }
+                                catch { }
+                            }
+                            else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDawn()) == 1)
+                            {
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunriseBrightness()); }
+                                catch { }
+                            }
+                        }
+                    }
                     break;
                 case PowerModes.Suspend:
                     CheckForSunriset.Stop();
@@ -478,58 +507,30 @@ namespace tinyBrightness
             SystemEvents.PowerModeChanged += AutoBrightnessOnPowerChange;
             CheckForSunriset.Tick += (sender, e) =>
             {
-                double Lat, Lon = 0;
-                double SunsetBrightness = 0.3;
-                double SunriseBrightness = 0.9;
-                double AstroSunsetBrightness = 0.1;
-                double AstroSunriseBrightness = 0.2;
+                TimeSpan CurrentTime = DateTime.UtcNow.TimeOfDay;
 
-                IniData data = SettingsController.GetCurrentSettings();
-
-                double.TryParse(data["AutoBrightness"]["Lat"], NumberStyles.Any, CultureInfo.InvariantCulture, out Lat);
-                double.TryParse(data["AutoBrightness"]["Lon"], NumberStyles.Any, CultureInfo.InvariantCulture, out Lon);
-
-                double.TryParse(data["AutoBrightness"]["SunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out SunsetBrightness);
-                double.TryParse(data["AutoBrightness"]["SunriseBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out SunriseBrightness);
-                double.TryParse(data["AutoBrightness"]["AstroSunsetBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out AstroSunsetBrightness);
-                double.TryParse(data["AutoBrightness"]["AstroSunriseBrightness"], NumberStyles.Any, CultureInfo.InvariantCulture, out AstroSunriseBrightness);
-
-                string CurrentTime = DateTime.UtcNow.ToString("HH:mm");
-
-                Sunriset.SunriseSunset(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tsunrise, out double tsunset);
-
-                //Sunrise
-                string sunriseTimeString = TimeSpan.FromHours(tsunrise).ToString(@"hh\:mm");
-                //Sunset
-                string sunsetTimeString = TimeSpan.FromHours(tsunset).ToString(@"hh\:mm");
-
-                Sunriset.AstronomicalTwilight(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tastrosunrise, out double tastrosunset);
-
-                //AstroSunrise
-                string astroSunriseTimeString = TimeSpan.FromHours(tastrosunrise).ToString(@"hh\:mm");
-                //AstroSunset
-                string astroSunsetTimeString = TimeSpan.FromHours(tastrosunset).ToString(@"hh\:mm");
+                SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
 
                 foreach (MONITOR mon in MonitorList)
                 {
-                    if (CurrentTime == sunriseTimeString)
+                    if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunrise()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunriseBrightness); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunriseBrightness()); }
                         catch { }
                     }
-                    else if (CurrentTime == sunsetTimeString)
+                    else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunset()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, SunsetBrightness); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunsetBrightness()); }
                         catch { }
                     }
-                    else if (CurrentTime == astroSunriseTimeString)
+                    else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDawn()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AstroSunriseBrightness); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunriseBrightness()); }
                         catch { }
                     }
-                    else if (CurrentTime == astroSunsetTimeString)
+                    else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDusk()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AstroSunsetBrightness); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunsetBrightness()); }
                         catch { }
                     }
                 }
