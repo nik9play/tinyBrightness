@@ -463,9 +463,10 @@ namespace tinyBrightness
                     {
                         CheckForSunriset.Start();
                         TimeSpan CurrentTime = DateTime.UtcNow.TimeOfDay;
-
+                        
                         SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
-
+                        System.Threading.Thread.Sleep(4000);
+                        
                         foreach (MONITOR mon in MonitorList)
                         {
                             if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDusk()) == 1)
