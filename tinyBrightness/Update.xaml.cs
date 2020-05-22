@@ -1,5 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Net;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using IniParser.Model;
 using Newtonsoft.Json.Linq;
@@ -16,73 +21,32 @@ namespace tinyBrightness
             InitializeComponent();
         }
 
-        private string ChangeLogUrl = "";
-        private string DownloadUrl = "";
-        private string NewVersionString = "";
+        public string ChangeLogUrl = "";
+        public string DownloadUrl = "";
+        public string Description = "";
+        public string Version = "";
 
-        public void Window_Loaded(bool IsManualCheck)
+        public void Window_Loaded()
         {
-            IniData data = SettingsController.GetCurrentSettings();
-
-            if ((data["Updates"]["DisableCheckOnStartup"] != "1" && !IsManualCheck) || IsManualCheck)
-                using (WebClient client = new WebClient())
+            UpdateController UpdCtr = new UpdateController();
+            UpdCtr.CheckingComplete += (sender, IsAvailabe) =>
+            {
+                if (IsAvailabe)
                 {
-                    ServicePointManager.Expect100Continue = true;
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    client.Headers.Add("user-agent", "request");
-                    client.DownloadStringCompleted += (sender, e) =>
-                    {
-                        string result = null;
-                        try
-                        {
-                            result = e.Result;
-                            JObject json_res = JObject.Parse(result);
-                            NewVersionString = json_res["tag_name"].ToString();
-                            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                            float CurrentVersion = float.Parse(version.Major + "," + version.Minor);
+                    ChangeLogUrl = UpdCtr.ChangeLogUrl;
+                    DownloadUrl = UpdCtr.DownloadUrl;
+                    Description = DescLabel.Text = UpdCtr.Description;
+                    Version = VersionLabel.Text = UpdCtr.NewVersion.ToString(CultureInfo.InvariantCulture);
 
-                            float NewVersion = float.Parse(json_res["tag_name"].ToString().Replace('.', ','));
-
-                            VersionLabel.Text = "Version: " + json_res["tag_name"];
-                            ChangeLogUrl = json_res["html_url"].ToString();
-
-                            if ((NewVersion > CurrentVersion) && (data["Updates"]["SkipVersion"] != json_res["tag_name"].ToString()))
-                            {
-                                DescLabel.Text = json_res["name"].ToString();
-                                DownloadUrl = json_res["assets"][0]["browser_download_url"].ToString();
-                                Show();
-                            }
-                            else
-                            {
-                                if (IsManualCheck)
-                                {
-                                    HeadingText.Text = "You are using latest version.";
-                                    SkipButton.IsEnabled = false;
-                                    DownloadButton.IsEnabled = false;
-                                    Show();
-                                }
-                            }
-                        }
-                        catch (Exception ex) {
-                            if (IsManualCheck)
-                            {
-                                Show();
-                                MessageBox.Show(ex.InnerException.Message, "tinyBrightness Update check fail.", MessageBoxButton.OK, MessageBoxImage.Error);
-                                Close();
-                            }
-                        }
-
-                    };
-                    client.DownloadStringAsync(new Uri("https://api.github.com/repos/nik9play/tinyBrightness/releases/latest"));
+                    Show();
+                } 
+                else
+                {
+                    Close();
                 }
-        }
 
-        private void Skip_Click(object sender, RoutedEventArgs e)
-        {
-            IniData data = SettingsController.GetCurrentSettings();
-            data["Updates"]["SkipVersion"] = NewVersionString;
-            SettingsController.SaveSettings(data);
-            Close();
+            };
+            UpdCtr.CheckForUpdatesAsync();
         }
 
         private void ChangeLog_Click(object sender, RoutedEventArgs e)
@@ -92,8 +56,54 @@ namespace tinyBrightness
 
         private void Download_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(DownloadUrl);
-            Close();
+            DownloadContainer.Visibility = Visibility.Visible;
+            DownloadButton.IsEnabled = false;
+            DownloadProgressRing.IsActive = true;
+
+            Assembly currentAssembly = Assembly.GetEntryAssembly();
+            string OldFileName = Path.GetFileName(currentAssembly.Location);
+
+            File.Delete("tinyBrightness.Old.exe");
+            File.Move(OldFileName, "tinyBrightness.Old.exe");
+            File.SetAttributes("tinyBrightness.Old.exe", FileAttributes.Hidden);
+
+            using (WebClient wc = new WebClient())
+            {
+                wc.DownloadProgressChanged += (senderP, eP) =>
+                {
+                    DownloadPercent.Text = eP.ProgressPercentage + "%";
+                };
+
+                wc.DownloadFileCompleted += wc_DownloadFileCompleted;
+                wc.DownloadFileAsync(new Uri(DownloadUrl), OldFileName);
+                Closing += (senderClose, eClose) => wc.CancelAsync();
+            }
+
+            void wc_DownloadFileCompleted(object senderC, AsyncCompletedEventArgs eC)
+            {
+                if (eC.Cancelled)
+                {
+                    File.Delete(OldFileName);
+                    File.Move("tinyBrightness.Old.exe", OldFileName);
+                    File.SetAttributes(OldFileName, FileAttributes.Normal);
+                    return;
+                }
+
+                if (eC.Error != null)
+                {
+                    MessageBox.Show("An error ocurred while trying to download file");
+                    File.Delete(OldFileName);
+                    File.Move("tinyBrightness.Old.exe", OldFileName);
+                    File.SetAttributes(OldFileName, FileAttributes.Normal);
+                    DownloadContainer.Visibility = Visibility.Hidden;
+                    DownloadButton.IsEnabled = true;
+                    DownloadProgressRing.IsActive = false;
+                    return;
+                }
+
+                System.Diagnostics.Process.Start(OldFileName);
+                Application.Current.Shutdown();
+            }
         }
     }
 }

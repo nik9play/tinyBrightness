@@ -2,7 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Net;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -87,13 +89,13 @@ namespace tinyBrightness
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            System.Diagnostics.Process.Start(Assembly.GetEntryAssembly().Location);
             Application.Current.Shutdown();
         }
 
         private void AcrylicWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
             DateTime buildDate = new DateTime(2000, 1, 1)
                                     .AddDays(version.Build).AddSeconds(version.Revision * 2);
             string displayableVersion = $"{version} ({buildDate})";

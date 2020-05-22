@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="tinyBrightness Update" Height="200" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="tinyBrightness Update" Height="250" Width="380" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <ui:SimpleStackPanel Spacing="10">
             <WrapPanel>
@@ -17,12 +17,19 @@
                 <TextBlock x:Name="HeadingText" FontSize="24" Text="Update available!" />
             </WrapPanel>
             <TextBlock x:Name="VersionLabel" FontSize="16" Text="Version:" />
-            <TextBlock x:Name="DescLabel" FontSize="14" Text="" />
+            <TextBlock x:Name="DescLabel" FontSize="14" TextWrapping="Wrap" Text="" />
+            <ui:SimpleStackPanel Visibility="Hidden" Orientation="Horizontal" Spacing="5" x:Name="DownloadContainer">
+                <ui:ProgressRing x:Name="DownloadProgressRing"
+                    IsActive="False"
+                    Height="20"
+                    Width="20" />
+                <TextBlock FontSize="14">Downloading:</TextBlock>
+                <TextBlock FontSize="14" x:Name="DownloadPercent">0%</TextBlock>
+            </ui:SimpleStackPanel>
         </ui:SimpleStackPanel>
-        <Button x:Name="SkipButton" Content="Skip" VerticalAlignment="Bottom" Click="Skip_Click"/>
         <WrapPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Button Click="ChangeLog_Click" Content="Changelog" HorizontalAlignment="Right" Margin="0,0,10,0"/>
-            <Button x:Name="DownloadButton" Click="Download_Click" Content="Download" HorizontalAlignment="Right"/>
+            <Button x:Name="DownloadButton" Click="Download_Click" Content="Download and Install" HorizontalAlignment="Right"/>
         </WrapPanel>
     </Grid>
 

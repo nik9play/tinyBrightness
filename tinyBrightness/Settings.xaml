@@ -134,11 +134,10 @@
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">tinyBrightness</TextBlock>
-                    <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/><LineBreak/><LineBreak/><Run Text="Tiny utility to change monitor brightness via DDC/CI interface."/></TextBlock>
+                    <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/></TextBlock>
+                    <TextBlock TextWrapping="Wrap" Text="Tiny utility to change monitor brightness via DDC/CI interface."/>
                     <ui:HyperlinkButton Content="Github"
-                                        NavigateUri="https://github.com/nik9play/tinyBrightness" />
-                    <ui:HyperlinkButton Content="Crash App"
-                                        Click="CrashApp_Click" />
+                                        NavigateUri="https://github.com/nik9play/tinyBrightness" Padding="0"/>
                 </ui:SimpleStackPanel>
             </TabItem>
         </TabControl>

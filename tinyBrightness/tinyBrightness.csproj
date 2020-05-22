@@ -127,6 +127,7 @@
     <Compile Include="Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateController.cs" />
     <Page Include="CrashReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\lightIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\updateIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

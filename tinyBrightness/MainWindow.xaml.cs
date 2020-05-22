@@ -15,6 +15,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows.Media;
 using System.Globalization;
+using Hardcodet.Wpf.TaskbarNotification;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 
 namespace tinyBrightness
 {
@@ -102,6 +106,7 @@ namespace tinyBrightness
             Show();
             Activate();
             Set_Initial_Brightness();
+            AfterUpdateCheck();
 
             IniData data = SettingsController.GetCurrentSettings();
             DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
@@ -174,7 +179,7 @@ namespace tinyBrightness
             DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
         }
 
-        private void Slider_Brightness_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Slider_Brightness_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
         }
@@ -333,23 +338,60 @@ namespace tinyBrightness
 
             UpdateCheckTimer.Tick += (sender, e) =>
             {
-                new Update().Window_Loaded(false);
+                CheckForUpdates(false);
             };
 
             if (data["Updates"]["DisableCheckEveryDay"] != "1")
                 UpdateCheckTimer.Start();
+
+            if (data["Updates"]["DisableCheckOnStartup"] != "1")
+                CheckForUpdates(false);
 
             //AutoBrightness
             if (data["AutoBrightness"]["Enabled"] == "1")
                 CheckForSunriset.Start();
 
             SetupAutoBrightnessTimer();
+
+            TrayIcon.TrayBalloonTipClicked += (senderB, eB) => new Update().Window_Loaded();
+        }
+
+        public void CheckForUpdates(bool IsManual)
+        {
+            UpdateController UpdContr = new UpdateController();
+            UpdContr.CheckForUpdatesAsync();
+            UpdContr.CheckingComplete += (sender, IsAvailabe) =>
+            {
+                Stream iconStream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Icons/updateIcon.ico")).Stream;
+
+                if (IsAvailabe)
+                {
+                    TrayIcon.ShowBalloonTip("New Version is Available: " + UpdContr.NewVersion.ToString(CultureInfo.InvariantCulture), UpdContr.Description + " Click here to see more.", new Icon(iconStream), true);
+                } 
+                else if (!IsAvailabe && IsManual)
+                {
+                    TrayIcon.ShowBalloonTip("No Updates Available", "You are using latest version.", new Icon(iconStream), true);
+                }
+            };
         }
 
         public DispatcherTimer UpdateCheckTimer = new DispatcherTimer()
         {
             Interval = new TimeSpan(1, 0, 0, 0)
         };
+
+        private void AfterUpdateCheck()
+        {
+            if (File.Exists("tinyBrightness.Old.exe"))
+            {
+                File.Delete("tinyBrightness.Old.exe");
+
+                Stream iconStream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Icons/updateIcon.ico")).Stream;
+
+                TrayIcon.ShowBalloonTip("Update installed successfully!", "Enjoy new version :3", new Icon(iconStream), true);
+            }
+        }
+
         #endregion
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
@@ -403,7 +445,7 @@ namespace tinyBrightness
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            new Update().Window_Loaded(true);
+            CheckForUpdates(true);
         }
 
         #endregion
