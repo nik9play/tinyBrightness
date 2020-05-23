@@ -19,6 +19,7 @@ using Hardcodet.Wpf.TaskbarNotification;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace tinyBrightness
 {
@@ -47,18 +48,18 @@ namespace tinyBrightness
                     string CurrentTheme = SystemTheme.WindowsTheme.ToString();
 
                     if (CurrentTheme == "Dark")
-                        TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
+                        TrayIcon.Icon = new Icon(Properties.Resources.lightIcon, SystemInformation.SmallIconSize);
                     else if (CurrentTheme == "Light")
-                        TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/darkIcon.ico"));
+                        TrayIcon.Icon = new Icon(Properties.Resources.darkIcon, SystemInformation.SmallIconSize);
                 }
                 else
                 {
-                    TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/lightIcon.ico"));
+                    TrayIcon.Icon = new Icon(Properties.Resources.lightIcon, SystemInformation.SmallIconSize);
                 }
             }
             else
             {
-                TrayIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Icons/icon.ico"));
+                TrayIcon.Icon = new Icon(Properties.Resources.icon, SystemInformation.SmallIconSize);
             }
         }
 
@@ -362,15 +363,15 @@ namespace tinyBrightness
             UpdContr.CheckForUpdatesAsync();
             UpdContr.CheckingComplete += (sender, IsAvailabe) =>
             {
-                Stream iconStream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Icons/updateIcon.ico")).Stream;
+                double factor = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
 
                 if (IsAvailabe)
                 {
-                    TrayIcon.ShowBalloonTip("New Version is Available: " + UpdContr.NewVersionString, UpdContr.Description + " Click here to see more.", new Icon(iconStream), true);
+                    TrayIcon.ShowBalloonTip("New Version is Available: " + UpdContr.NewVersionString, UpdContr.Description + " Click here to see more.", new Icon(Properties.Resources.updateIcon, new System.Drawing.Size(Convert.ToInt32(40 * factor), Convert.ToInt32(40 * factor))), true);
                 } 
                 else if (!IsAvailabe && IsManual)
                 {
-                    TrayIcon.ShowBalloonTip("No Updates Available", "You are using latest version.", new Icon(iconStream), true);
+                    TrayIcon.ShowBalloonTip("No Updates Available", "You are using latest version.", new Icon(Properties.Resources.updateIcon, new System.Drawing.Size(Convert.ToInt32(40 * factor), Convert.ToInt32(40 * factor))), true);
                 }
             };
         }
@@ -386,9 +387,9 @@ namespace tinyBrightness
             {
                 File.Delete("tinyBrightness.Old.exe");
 
-                Stream iconStream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Icons/updateIcon.ico")).Stream;
+                double factor = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
 
-                TrayIcon.ShowBalloonTip("Update installed successfully!", "Enjoy new version :3", new Icon(iconStream), true);
+                TrayIcon.ShowBalloonTip("Update installed successfully!", "Enjoy new version :3", new Icon(Properties.Resources.updateIcon, new System.Drawing.Size(Convert.ToInt32(40 * factor), Convert.ToInt32(40 * factor))), true);
             }
         }
 
