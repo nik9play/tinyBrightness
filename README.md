@@ -9,3 +9,9 @@
 * Hotkeys
 * Supports Windows 7/8/8.1/10
 * Fluent design with blur
+
+## Download
+Download latest [release](https://github.com/nik9play/tinyBrightness/releases) from GitHub or use official package from Chocolatey:
+```
+choco install tiny-brightness
+```
