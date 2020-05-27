@@ -135,9 +135,54 @@
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">tinyBrightness</TextBlock>
                     <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/></TextBlock>
-                    <TextBlock TextWrapping="Wrap" Text="Tiny utility to change monitor brightness via DDC/CI interface."/>
-                    <ui:HyperlinkButton Content="Github"
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap" Text="Tiny utility to change monitor brightness via DDC/CI interface."/>
+                    <ui:HyperlinkButton Content="GitHub"
                                         NavigateUri="https://github.com/nik9play/tinyBrightness" Padding="0"/>
+                    <ScrollViewer Height="235">
+                        <ui:SimpleStackPanel Spacing="5">
+                            <TextBlock Style="{StaticResource BaseTextBlockStyle}">Third party libraries:</TextBlock>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Json.NET —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">ModernWpf —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/Kinnara/ModernWpf" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Costura —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/Fody/Costura" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Hardcodet NotifyIcon for WPF —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/hardcodet/wpf-notifyicon" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">MahApps.Metro.IconPacks —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/MahApps/MahApps.Metro.IconPacks" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">NHotkey —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/thomaslevesque/NHotkey" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">INI File Parser —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/rickyah/ini-parser" Padding="0"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">FluentWPF —</TextBlock>
+                                <ui:HyperlinkButton Content="GitHub"
+                                        NavigateUri="https://github.com/sourcechord/FluentWPF" Padding="0"/>
+                            </WrapPanel>
+                        </ui:SimpleStackPanel>
+                    </ScrollViewer>
                 </ui:SimpleStackPanel>
             </TabItem>
         </TabControl>
