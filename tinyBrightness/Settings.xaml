@@ -17,7 +17,7 @@
         <TabControl Style="{StaticResource TabControlPivotStyle}">
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Sliders" Width="24" Height="24"/>
+                    <ui:FontIcon Glyph="&#xE713;" FontSize="24px"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">General</TextBlock>
@@ -44,7 +44,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Calendar" Width="24" Height="24"/>
+                    <ui:FontIcon Glyph="&#xE163;" FontSize="24px"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Auto Brightness</TextBlock>
@@ -85,7 +85,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Monitor" Width="24" Height="24"/>
+                    <ui:FontIcon Glyph="&#xE790;" FontSize="24px"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Appearance</TextBlock>
@@ -111,7 +111,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Command" Width="24" Height="24"/>
+                    <ui:FontIcon Glyph="&#xEDA7;" FontSize="24px"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Hotkeys</TextBlock>
@@ -130,7 +130,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <iconPacks:FeatherIcons Kind="Info" Width="24" Height="24"/>
+                    <ui:FontIcon Glyph="&#xE946;" FontSize="24px"/>
                 </TabItem.Header>
                 <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">tinyBrightness</TextBlock>
