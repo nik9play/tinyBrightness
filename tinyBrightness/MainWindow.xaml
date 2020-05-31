@@ -89,8 +89,7 @@
             ToolTipText="tinyBrightness"
             TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseUp"
             x:Name="TrayIcon"
-            NoLeftClickDelay="True"
-            TrayMouseMove="TrayIcon_TrayMouseMove">
+            NoLeftClickDelay="True">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Check for updates" Click="Update_Click">
