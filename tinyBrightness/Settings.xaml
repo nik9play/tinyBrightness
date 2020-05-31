@@ -8,7 +8,6 @@
     mc:Ignorable="d"
     Loaded="AcrylicWindow_Loaded"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     ui:WindowHelper.UseModernWindowStyle="True"
     ui:TitleBar.ExtendViewIntoTitleBar="True"
     Title="Settings" ResizeMode="NoResize"
