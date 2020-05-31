@@ -19,8 +19,8 @@
                     OnContent="On"
                     Header="Enable Auto Brightness"
                     Toggled="AutoBrightnessSwitch_Toggled"/>
-                <ui:NumberBox ValueChanged="LatitudeBox_ValueChanged" FontSize="14" x:Name="LatitudeBox" ui:ControlHelper.Header="Latitude:" ui:ControlHelper.PlaceholderText="ex. 59,8981" Value="NaN"/>
-                <ui:NumberBox ValueChanged="LongitudeBox_ValueChanged" FontSize="14" x:Name="LongitudeBox" ui:ControlHelper.Header="Longitude:" ui:ControlHelper.PlaceholderText="ex. 30,2619" Value="NaN"/>
+                <ui:NumberBox ValueChanged="LatitudeBox_ValueChanged" FontSize="14" x:Name="LatitudeBox" ui:ControlHelper.Header="Latitude:" ui:ControlHelper.PlaceholderText="e. g. 59,8981" Value="NaN"/>
+                <ui:NumberBox ValueChanged="LongitudeBox_ValueChanged" FontSize="14" x:Name="LongitudeBox" ui:ControlHelper.Header="Longitude:" ui:ControlHelper.PlaceholderText="e. g. 30,2619" Value="NaN"/>
                 <Button FontSize="12" HorizontalAlignment="Stretch" x:Name="LocationIPButton">
                     <ui:FlyoutService.Flyout>
                         <ui:Flyout>
