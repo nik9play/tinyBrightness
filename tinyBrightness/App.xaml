@@ -12,6 +12,7 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="Segoe MDL2 Assets">pack://application:,,,/Fonts/#Segoe MDL2 Assets</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

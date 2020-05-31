@@ -93,22 +93,22 @@
                 <ContextMenu>
                     <MenuItem Header="Check for updates" Click="Update_Click">
                         <MenuItem.Icon>
-                            <ui:FontIcon Glyph="&#xE777;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
+                            <ui:FontIcon FontFamily="{StaticResource Segoe MDL2 Assets}" Glyph="&#xE777;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Settings" Click="Settings_Click">
                         <MenuItem.Icon>
-                            <ui:FontIcon Glyph="&#xE115;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
+                            <ui:FontIcon FontFamily="{StaticResource Segoe MDL2 Assets}" Glyph="&#xE115;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Update Monitors" Click="UpdateMonitors_Click">
                         <MenuItem.Icon>
-                            <ui:FontIcon Glyph="&#xEC77;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
+                            <ui:FontIcon FontFamily="{StaticResource Segoe MDL2 Assets}" Glyph="&#xEC77;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Exit" Click="Exit_Click">
                         <MenuItem.Icon>
-                            <ui:FontIcon Glyph="&#xE10A;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
+                            <ui:FontIcon FontFamily="{StaticResource Segoe MDL2 Assets}" Glyph="&#xE10A;" TextOptions.TextFormattingMode="Display" FontSize="16px"/>
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>

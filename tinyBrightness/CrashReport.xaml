@@ -12,7 +12,7 @@
     <Grid Margin="10">
         <ui:SimpleStackPanel Spacing="10">
             <WrapPanel>
-                <ui:FontIcon Glyph="&#xEA39;" Margin="0,0,10,0" FontSize="32px"/>
+                <ui:FontIcon FontFamily="{StaticResource Segoe MDL2 Assets}" Glyph="&#xEA39;" Margin="0,0,10,0" FontSize="32px"/>
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Oops! tinyBrightness threw unexpected exception..." VerticalAlignment="Top" FontSize="22"/>
             </WrapPanel>
             <TextBlock ToolTip="{Binding ExceptionMessage}" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="NoWrap" FontSize="14" TextTrimming="CharacterEllipsis"><Run>Message:</Run> <Run Text="{Binding ExceptionMessage}"></Run></TextBlock>
