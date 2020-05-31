@@ -8,12 +8,11 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         ResizeMode="NoResize"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         Title="tinyBrightness Error Report" Height="350" Width="600">
     <Grid Margin="10">
         <ui:SimpleStackPanel Spacing="10">
             <WrapPanel>
-                <iconPacks:PackIconFeatherIcons Kind="AlertCircle" Width="26" Height="26" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ui:FontIcon Glyph="&#xEA39;" Margin="0,0,10,0" FontSize="32px"/>
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Oops! tinyBrightness threw unexpected exception..." VerticalAlignment="Top" FontSize="22"/>
             </WrapPanel>
             <TextBlock ToolTip="{Binding ExceptionMessage}" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="NoWrap" FontSize="14" TextTrimming="CharacterEllipsis"><Run>Message:</Run> <Run Text="{Binding ExceptionMessage}"></Run></TextBlock>
