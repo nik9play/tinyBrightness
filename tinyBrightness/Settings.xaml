@@ -10,179 +10,49 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     ui:WindowHelper.UseModernWindowStyle="True"
+    ui:TitleBar.ExtendViewIntoTitleBar="True"
     Title="Settings" ResizeMode="NoResize"
-    Width="250"
+    Width="600"
     Height="450">
     <Grid x:Name="Main_Grid">
-        <TabControl Style="{StaticResource TabControlPivotStyle}">
-            <TabItem>
-                <TabItem.Header>
-                    <ui:FontIcon Glyph="&#xE713;" FontSize="24px"/>
-                </TabItem.Header>
-                <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">General</TextBlock>
-                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
-                    <ui:ToggleSwitch
-                            x:Name="RunSwitch"
-                            Header="Run at login"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                            Toggled="RunSwitch_Toggled"/>
-                    <ui:ToggleSwitch
-                            x:Name="UpdatesSwitch"
-                            Header="Check for updates on startup"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                            Toggled="UpdatesSwitch_Toggled"/>
-                    <ui:ToggleSwitch
-                            x:Name="EveryDayUpdatesSwitch"
-                            Header="Check for updates every day"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                            Toggled="EveryDayUpdatesSwitch_Toggled"/>
-                </ui:SimpleStackPanel>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <ui:FontIcon Glyph="&#xE163;" FontSize="24px"/>
-                </TabItem.Header>
-                <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Auto Brightness</TextBlock>
-                    <ui:ToggleSwitch
-                            x:Name="AutoBrightnessSwitch"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                        Toggled="AutoBrightnessSwitch_Toggled"/>
-                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
-                    <ui:NumberBox ValueChanged="LatitudeBox_ValueChanged" FontSize="14" x:Name="LatitudeBox" ui:ControlHelper.Header="Latitude:" ui:ControlHelper.PlaceholderText="ex. 59,8981" Value="NaN"/>
-                    <ui:NumberBox ValueChanged="LongitudeBox_ValueChanged" FontSize="14" x:Name="LongitudeBox" ui:ControlHelper.Header="Longitude:" ui:ControlHelper.PlaceholderText="ex. 30,2619" Value="NaN"/>
-                    <Button FontSize="12" HorizontalAlignment="Stretch" x:Name="LocationIPButton">
-                        <ui:FlyoutService.Flyout>
-                            <ui:Flyout>
-                            <StackPanel>
-                                <TextBlock
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="HTTP request will be sent to http://ip-api.com. Proceed?"
-                                    Margin="0,0,0,12" />
-                                <Button
-                                    Click="HyperlinkButton_Click"
-                                    Content="Yes" />
-                            </StackPanel>
-                            </ui:Flyout>
-                        </ui:FlyoutService.Flyout>
-                        Get information by IP
-                    </Button>
-                    <ScrollViewer Height="115" Padding="0,0,25,0" Margin="0,5,0,0">
-                        <ui:SimpleStackPanel Spacing="5">
-                            <Slider IsSnapToTickEnabled="True" x:Name="SunriseSlider" ValueChanged="SunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunrise" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                            <Slider IsSnapToTickEnabled="True" x:Name="SunsetSlider" ValueChanged="SunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunset" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                            <Slider IsSnapToTickEnabled="True" x:Name="AstroSunriseSlider" ValueChanged="AstroSunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dawn" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                            <Slider IsSnapToTickEnabled="True" x:Name="AstroSunsetSlider" ValueChanged="AstroSunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dusk" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid
+            Panel.ZIndex="2"
+            Grid.Row="0"
+            x:Name="AppTitleBar"
+            Height="32"
+            Background="Transparent">
+            <TextBlock
+                FontSize="13"
+                Text="Settings" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        </Grid>
+        <ui:NavigationView x:Name="SettingsNav" SelectionChanged="SettingsNav_SelectionChanged"
+                           IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False"
+                           IsSettingsVisible="False" PaneDisplayMode="Left" OpenPaneLength="200" Grid.Row="0" Grid.RowSpan="2">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem IsSelected="True" Content="General" Tag="General" Icon="Setting"/>
+                <ui:NavigationViewItem Content="Auto Brightness" Tag="AutoBrightness" Icon="Calendar" />
+                <ui:NavigationViewItem Content="Appearance" Tag="Appearance">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE771;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Hotkeys" Tag="Hotkeys">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xEDA7;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="About" Tag="About">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:FontIcon Glyph="&#xE946;"/>
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
 
-                        </ui:SimpleStackPanel>
-                    </ScrollViewer>
-                </ui:SimpleStackPanel>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <ui:FontIcon Glyph="&#xE790;" FontSize="24px"/>
-                </TabItem.Header>
-                <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Appearance</TextBlock>
-                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
-                    <ui:ToggleSwitch
-                            x:Name="HotkeyPopupSwitch"
-                            Header="Hotkey Popup"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                            Toggled="HotkeyPopupSwitch_Toggled"/>
-                    <ComboBox SelectionChanged="HotkeyPopupPositionCombobox_Selected" x:Name="HotkeyPopupPositionCombobox" ItemsSource="{Binding HotkeyPopupPositionList}" ui:ControlHelper.Header="Position" HorizontalAlignment="Stretch"></ComboBox>
-                    <ui:ToggleSwitch
-                            x:Name="BlurSwitch"
-                            Header="Blur"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                            Toggled="BlurSwitch_Toggled"/>
-                    <TextBlock FontSize="12">
-                        To toggle blur, restart the app.
-                    </TextBlock>
-                    <Button Content="Restart" Click="Button_Click" FontSize="12"/>
-                </ui:SimpleStackPanel>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <ui:FontIcon Glyph="&#xEDA7;" FontSize="24px"/>
-                </TabItem.Header>
-                <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,0">
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Hotkeys</TextBlock>
-                    <ui:ToggleSwitch
-                            x:Name="HotkeysSwitch"
-                            OffContent="Disable"
-                            OnContent="Enable"
-                            Toggled="HotkeysSwitch_Toggled"/>
-                    <Separator Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
-                    
-                    <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>
-                    <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
-                    <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
-
-                </ui:SimpleStackPanel>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <ui:FontIcon Glyph="&#xE946;" FontSize="24px"/>
-                </TabItem.Header>
-                <ui:SimpleStackPanel Spacing="5" Margin="0,5,0,10">
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">tinyBrightness</TextBlock>
-                    <TextBlock TextWrapping="Wrap" Grid.Row="0"><Run x:Name="Version_Text" Text="Version " Foreground="#FF858585" FontSize="11"/></TextBlock>
-                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap" Text="Tiny utility to change monitor brightness via DDC/CI interface."/>
-                    <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/nik9play/tinyBrightness" Padding="0"/>
-                    <ui:SimpleStackPanel Spacing="0">
-                        <TextBlock Style="{StaticResource BaseTextBlockStyle}">Third party libraries:</TextBlock>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Json.NET —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">ModernWpf —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/Kinnara/ModernWpf" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Costura —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/Fody/Costura" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Hardcodet NotifyIcon for WPF —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/hardcodet/wpf-notifyicon" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">MahApps.Metro.IconPacks —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/MahApps/MahApps.Metro.IconPacks" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">NHotkey —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/thomaslevesque/NHotkey" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">INI File Parser —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/rickyah/ini-parser" Padding="0"/>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">FluentWPF —</TextBlock>
-                            <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/sourcechord/FluentWPF" Padding="0"/>
-                        </WrapPanel>
-                    </ui:SimpleStackPanel>
-                </ui:SimpleStackPanel>
-            </TabItem>
-        </TabControl>
+            <ui:Frame x:Name="SettingsFrame"/>
+        </ui:NavigationView>
     </Grid>
 </Window>

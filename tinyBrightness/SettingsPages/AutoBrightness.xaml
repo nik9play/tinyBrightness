@@ -1,0 +1,47 @@
+﻿<Page x:Class="tinyBrightness.SettingsPages.AutoBrightness"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:tinyBrightness.SettingsPages"
+      mc:Ignorable="d"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      Title="AutoBrightness"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <ScrollViewer ui:ScrollViewerHelper.AutoHideScrollBars="True">
+            <ui:SimpleStackPanel Spacing="10" Width="240px" HorizontalAlignment="Left" Margin="10">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}">Auto Brightness</TextBlock>
+                <ui:ToggleSwitch
+                    x:Name="AutoBrightnessSwitch"
+                    OffContent="Disable"
+                    OnContent="Enable"
+                    Header="Enable Auto Brightness"
+                    Toggled="AutoBrightnessSwitch_Toggled"/>
+                <ui:NumberBox ValueChanged="LatitudeBox_ValueChanged" FontSize="14" x:Name="LatitudeBox" ui:ControlHelper.Header="Latitude:" ui:ControlHelper.PlaceholderText="ex. 59,8981" Value="NaN"/>
+                <ui:NumberBox ValueChanged="LongitudeBox_ValueChanged" FontSize="14" x:Name="LongitudeBox" ui:ControlHelper.Header="Longitude:" ui:ControlHelper.PlaceholderText="ex. 30,2619" Value="NaN"/>
+                <Button FontSize="12" HorizontalAlignment="Stretch" x:Name="LocationIPButton">
+                    <ui:FlyoutService.Flyout>
+                        <ui:Flyout>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Text="HTTP request will be sent to http://ip-api.com. Proceed?"
+                                    Margin="0,0,0,12" />
+                                <Button
+                                    Click="HyperlinkButton_Click"
+                                    Content="Yes" />
+                            </StackPanel>
+                        </ui:Flyout>
+                    </ui:FlyoutService.Flyout>
+                    Get information by IP
+                </Button>
+                <Slider IsSnapToTickEnabled="True" x:Name="SunriseSlider" ValueChanged="SunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunrise" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                <Slider IsSnapToTickEnabled="True" x:Name="SunsetSlider" ValueChanged="SunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunset" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                <Slider IsSnapToTickEnabled="True" x:Name="AstroSunriseSlider" ValueChanged="AstroSunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dawn" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                <Slider IsSnapToTickEnabled="True" x:Name="AstroSunsetSlider" ValueChanged="AstroSunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dusk" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+            </ui:SimpleStackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
