@@ -15,8 +15,8 @@
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}">Auto Brightness</TextBlock>
                 <ui:ToggleSwitch
                     x:Name="AutoBrightnessSwitch"
-                    OffContent="Disable"
-                    OnContent="Enable"
+                    OffContent="Off"
+                    OnContent="On"
                     Header="Enable Auto Brightness"
                     Toggled="AutoBrightnessSwitch_Toggled"/>
                 <ui:NumberBox ValueChanged="LatitudeBox_ValueChanged" FontSize="14" x:Name="LatitudeBox" ui:ControlHelper.Header="Latitude:" ui:ControlHelper.PlaceholderText="ex. 59,8981" Value="NaN"/>

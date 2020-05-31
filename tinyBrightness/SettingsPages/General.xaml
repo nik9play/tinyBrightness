@@ -15,20 +15,20 @@
             <ui:ToggleSwitch
                             x:Name="RunSwitch"
                             Header="Run at login"
-                            OffContent="Disable"
-                            OnContent="Enable"
+                            OffContent="Off"
+                            OnContent="On"
                             Toggled="RunSwitch_Toggled"/>
             <ui:ToggleSwitch
                             x:Name="UpdatesSwitch"
                             Header="Check for updates on startup"
-                            OffContent="Disable"
-                            OnContent="Enable"
+                            OffContent="Off"
+                            OnContent="On"
                             Toggled="UpdatesSwitch_Toggled"/>
             <ui:ToggleSwitch
                             x:Name="EveryDayUpdatesSwitch"
                             Header="Check for updates every day"
-                            OffContent="Disable"
-                            OnContent="Enable"
+                            OffContent="Off"
+                            OnContent="On"
                             Toggled="EveryDayUpdatesSwitch_Toggled"/>
         </ui:SimpleStackPanel>
     </Grid>

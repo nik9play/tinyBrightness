@@ -14,8 +14,8 @@
             <TextBlock Style="{StaticResource TitleTextBlockStyle}">Hotkeys</TextBlock>
             <ui:ToggleSwitch
                 x:Name="HotkeysSwitch"
-                OffContent="Disable"
-                OnContent="Enable"
+                OffContent="Off"
+                OnContent="On"
                 Header="Enable Hotkeys"
                 Toggled="HotkeysSwitch_Toggled"/>
             <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>

@@ -15,15 +15,15 @@
             <ui:ToggleSwitch
                             x:Name="HotkeyPopupSwitch"
                             Header="Hotkey Popup"
-                            OffContent="Disable"
-                            OnContent="Enable"
+                            OffContent="Off"
+                            OnContent="On"
                             Toggled="HotkeyPopupSwitch_Toggled"/>
             <ComboBox SelectionChanged="HotkeyPopupPositionCombobox_Selected" x:Name="HotkeyPopupPositionCombobox" ItemsSource="{Binding HotkeyPopupPositionList}" ui:ControlHelper.Header="Position" HorizontalAlignment="Stretch"></ComboBox>
             <ui:ToggleSwitch
                             x:Name="BlurSwitch"
                             Header="Blur"
-                            OffContent="Disable"
-                            OnContent="Enable"
+                            OffContent="Off"
+                            OnContent="On"
                             Toggled="BlurSwitch_Toggled"/>
             <TextBlock FontSize="12">
                         To toggle blur, restart the app.
