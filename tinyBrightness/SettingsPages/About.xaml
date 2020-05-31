@@ -16,7 +16,7 @@
             <TextBlock Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap" Text="Tiny utility to change monitor brightness via DDC/CI interface."/>
             <ui:HyperlinkButton Content="GitHub"
                                         NavigateUri="https://github.com/nik9play/tinyBrightness" Padding="0"/>
-            <ui:SimpleStackPanel Spacing="0">
+            <ui:SimpleStackPanel Spacing="5">
                 <TextBlock Style="{StaticResource BaseTextBlockStyle}">Third party libraries:</TextBlock>
                 <WrapPanel>
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Json.NET —</TextBlock>
@@ -37,11 +37,6 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">Hardcodet NotifyIcon for WPF —</TextBlock>
                     <ui:HyperlinkButton Content="GitHub"
                                         NavigateUri="https://github.com/hardcodet/wpf-notifyicon" Padding="0"/>
-                </WrapPanel>
-                <WrapPanel>
-                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">MahApps.Metro.IconPacks —</TextBlock>
-                    <ui:HyperlinkButton Content="GitHub"
-                                        NavigateUri="https://github.com/MahApps/MahApps.Metro.IconPacks" Padding="0"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,5,0">NHotkey —</TextBlock>
