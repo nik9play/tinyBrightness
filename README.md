@@ -15,3 +15,4 @@ Download latest [release](https://github.com/nik9play/tinyBrightness/releases) f
 ```
 choco install tiny-brightness
 ```
+*Note: if the package on Chocolatey does not contain the latest version try running `choco install tiny-brightness --version=<latest.version>`.*
