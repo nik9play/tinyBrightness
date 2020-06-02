@@ -9,17 +9,12 @@ using NHotkey.Wpf;
 using System.Windows.Input;
 using NHotkey;
 using SourceChord.FluentWPF;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Globalization;
-using Hardcodet.Wpf.TaskbarNotification;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace tinyBrightness
 {
