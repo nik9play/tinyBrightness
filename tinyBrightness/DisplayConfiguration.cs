@@ -154,5 +154,25 @@ namespace tinyBrightness
             }
         }
 
+        public struct MonitorExtremums
+        {
+            public uint Min;
+            public uint Max;
+        }
+
+        public static MonitorExtremums GetMonitorExtremums(PHYSICAL_MONITOR physicalMonitor)
+        {
+            uint dwMinimumBrightness, dwCurrentBrightness, dwMaximumBrightness;
+            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out dwMinimumBrightness, out dwCurrentBrightness, out dwMaximumBrightness))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            return new MonitorExtremum
+            {
+                Min = dwMinimumBrightness,
+                Max = dwMaximumBrightness
+            };
+        }
     }
 }
