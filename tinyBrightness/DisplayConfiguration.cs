@@ -168,7 +168,7 @@ namespace tinyBrightness
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
 
-            return new MonitorExtremum
+            return new MonitorExtremums
             {
                 Min = dwMinimumBrightness,
                 Max = dwMaximumBrightness
