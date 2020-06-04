@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Windows.Media;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace tinyBrightness
 {
@@ -62,25 +63,29 @@ namespace tinyBrightness
         {
             public string name { get; set; }
             public DisplayConfiguration.PHYSICAL_MONITOR Handle { get; set; }
+            public uint Min { get; set; }
+            public uint Max { get; set; }
 
-            public MONITOR(string name, DisplayConfiguration.PHYSICAL_MONITOR Handle)
+            public MONITOR(string name, DisplayConfiguration.PHYSICAL_MONITOR Handle, uint Min, uint Max)
             {
                 this.name = name;
                 this.Handle = Handle;
+                this.Min = Min;
+                this.Max = Max;
             }
         }
 
         List<MONITOR> MonitorList { get; set; } = new List<MONITOR>();
 
-        DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor;
+        MONITOR CurrentMonitor;
 
         private void Set_Initial_Brightness()
         {
-            Double Brightness = 0;
+            double Brightness = 0;
 
             try
             {
-                Brightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor) * 100;
+                Brightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor.Handle) * 100;
 
                 Slider_Brightness.IsEnabled = true;
                 Main_Grid.ToolTip = null;
@@ -162,22 +167,14 @@ namespace tinyBrightness
                     Name = "Generic Monitor";
                 }
 
-                MonitorList.Add(new MONITOR(Name, mon));
+                DisplayConfiguration.MonitorExtremums MonExtrs = DisplayConfiguration.GetMonitorExtremums(mon);
+
+                MonitorList.Add(new MONITOR(Name, mon, MonExtrs.Min, MonExtrs.Max));
             }
 
             Monitor_List_Combobox.ItemsSource = MonitorList;
             Monitor_List_Combobox.SelectedItem = MonitorList[0];
-            CurrentMonitor = MonitorList[0].Handle;
-        }
-
-        private void Slider_Brightness_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-        {
-            DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
-        }
-
-        private void Slider_Brightness_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
+            CurrentMonitor = MonitorList[0];
         }
 
 
@@ -189,7 +186,7 @@ namespace tinyBrightness
 
         private void Monitor_List_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentMonitor = MonitorList[Monitor_List_Combobox.SelectedIndex].Handle;
+            CurrentMonitor = MonitorList[Monitor_List_Combobox.SelectedIndex];
             Set_Initial_Brightness();
         }
 
@@ -253,62 +250,40 @@ namespace tinyBrightness
 
         private void OnBrightnessUp(object sender, HotkeyEventArgs e)
         {
-            (FindResource("hideMe") as Storyboard).Begin(this);
-
-            IniData data = SettingsController.GetCurrentSettings();
-            DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
-
-            try
-            {
-                double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
-
-                if (CurrentBrightness <= 0.9)
-                {
-                    HotkeyPopupWindow.PercentText.Text = ((CurrentBrightness + 0.1) * 100).ToString();
-                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness + 0.1);
-                }
-                else if (CurrentBrightness < 1)
-                {
-                    HotkeyPopupWindow.PercentText.Text = "100";
-                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 1);
-                }
-                else if (CurrentBrightness == 1)
-                    HotkeyPopupWindow.PercentText.Text = "100";
-
-                if (data["Misc"]["HotkeyPopupDisable"] != "1")
-                {
-                    HotkeyPopupWindow.Show();
-                    HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
-                }
-            }
-            catch { }
+            BrightnessHotkeyEvent(true);
         }
 
         private void OnBrightnessDown(object sender, HotkeyEventArgs e)
         {
+            BrightnessHotkeyEvent(false);
+        }
+
+        private void BrightnessHotkeyEvent(bool IsUp)
+        {
             (FindResource("hideMe") as Storyboard).Begin(this);
 
             IniData data = SettingsController.GetCurrentSettings();
-            DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
             try
             {
-                double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
+                DisplayConfiguration.PHYSICAL_MONITOR Handle = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
+                Task.Run(() => { try { DisplayConfiguration.SetBrightnessOffset(Handle, IsUp ? 0.05 : -0.05); } catch { } });
 
-                if (CurrentBrightness >= 0.1)
+                if (HotkeyPopupWindow.IsVisible)
                 {
-                    HotkeyPopupWindow.PercentText.Text = ((CurrentBrightness - 0.1) * 100).ToString();
-                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, CurrentBrightness - 0.1);
+                    int HotkeyPopupBrightness = int.Parse(HotkeyPopupWindow.PercentText.Text);
+                    int NewBrightness = HotkeyPopupBrightness + (IsUp ? 5 : -5);
+
+                    if (NewBrightness > 100) NewBrightness = 100;
+                    else if (NewBrightness < 0) NewBrightness = 0;
+
+                    HotkeyPopupWindow.PercentText.Text = NewBrightness.ToString();
+                    HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
                 }
-                else if (CurrentBrightness > 0)
+                else
                 {
-                    HotkeyPopupWindow.PercentText.Text = "0";
-                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, 0);
-                }
-                   
-                if (data["Misc"]["HotkeyPopupDisable"] != "1")
-                {
-                    HotkeyPopupWindow.Show();
+                    double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(Handle);
+                    HotkeyPopupWindow.PercentText.Text = (CurrentBrightness * 100).ToString();
                     HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
                 }
             }
@@ -396,11 +371,14 @@ namespace tinyBrightness
         {
             PercentText.Text = Convert.ToInt32(((Slider)sender).Value).ToString();
 
-            debounceTimer.Throttle(100, (p) =>
+            debounceTimer.Throttle(50, (p) =>
             {
                 try
                 {
-                    DisplayConfiguration.SetMonitorBrightness(CurrentMonitor, ((Slider)sender).Value / 100);
+                    DisplayConfiguration.PHYSICAL_MONITOR Handle = CurrentMonitor.Handle;
+                    uint Min = CurrentMonitor.Min;
+                    uint Max = CurrentMonitor.Max;
+                    DisplayConfiguration.SetMonitorBrightness(Handle, ((Slider)sender).Value / 100, Min, Max);
                 }
                 catch { }
             });
@@ -463,7 +441,7 @@ namespace tinyBrightness
                         SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
                         System.Threading.Thread.Sleep(4000);
                         
-                        foreach (MONITOR mon in MonitorList)
+/*                        foreach (MONITOR mon in MonitorList)
                         {
                             if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDusk()) == 1)
                             {
@@ -486,7 +464,7 @@ namespace tinyBrightness
                                 catch { }
                             }
                         }
-                    }
+*/                    }
                     break;
                 case PowerModes.Suspend:
                     CheckForSunriset.Stop();
@@ -508,7 +486,7 @@ namespace tinyBrightness
 
                 SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
 
-                foreach (MONITOR mon in MonitorList)
+/*                foreach (MONITOR mon in MonitorList)
                 {
                     if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunrise()) == 0)
                     {
@@ -531,7 +509,7 @@ namespace tinyBrightness
                         catch { }
                     }
                 }
-            };
+*/            };
         }
 
         #endregion
