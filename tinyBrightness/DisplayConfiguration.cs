@@ -76,10 +76,11 @@ namespace tinyBrightness
             public int bottom;
         }
 
+        #region Public
+
         public static IntPtr GetCurrentMonitor()
         {
-            POINT point = new POINT();
-            if (!GetCursorPos(out point))
+            if (!GetCursorPos(out POINT point))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
@@ -133,21 +134,15 @@ namespace tinyBrightness
 
         public static double GetMonitorBrightness(PHYSICAL_MONITOR physicalMonitor)
         {
-            uint dwMinimumBrightness, dwCurrentBrightness, dwMaximumBrightness;
-            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out dwMinimumBrightness, out dwCurrentBrightness, out dwMaximumBrightness))
+            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out uint dwMinimumBrightness, out uint dwCurrentBrightness, out uint dwMaximumBrightness))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             return (double)(dwCurrentBrightness - dwMinimumBrightness) / (double)(dwMaximumBrightness - dwMinimumBrightness);
         }
 
-        public static void SetMonitorBrightness(PHYSICAL_MONITOR physicalMonitor, double brightness)
+        public static void SetMonitorBrightness(PHYSICAL_MONITOR physicalMonitor, double brightness, uint dwMinimumBrightness, uint dwMaximumBrightness)
         {
-            uint dwMinimumBrightness, dwCurrentBrightness, dwMaximumBrightness;
-            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out dwMinimumBrightness, out dwCurrentBrightness, out dwMaximumBrightness))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
             if (!SetMonitorBrightness(physicalMonitor.hPhysicalMonitor, (uint)(dwMinimumBrightness + (dwMaximumBrightness - dwMinimumBrightness) * brightness)))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -162,8 +157,7 @@ namespace tinyBrightness
 
         public static MonitorExtremums GetMonitorExtremums(PHYSICAL_MONITOR physicalMonitor)
         {
-            uint dwMinimumBrightness, dwCurrentBrightness, dwMaximumBrightness;
-            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out dwMinimumBrightness, out dwCurrentBrightness, out dwMaximumBrightness))
+            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out uint dwMinimumBrightness, out uint dwCurrentBrightness, out uint dwMaximumBrightness))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
@@ -174,5 +168,26 @@ namespace tinyBrightness
                 Max = dwMaximumBrightness
             };
         }
+
+        public static double SetBrightnessOffset(PHYSICAL_MONITOR physicalMonitor, double offset)
+        {
+            if (!GetMonitorBrightness(physicalMonitor.hPhysicalMonitor, out uint dwMinimumBrightness, out uint dwCurrentBrightness, out uint dwMaximumBrightness))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            double CurrentBrightness = (double)(dwCurrentBrightness - dwMinimumBrightness) / (double)(dwMaximumBrightness - dwMinimumBrightness);
+            double brightness = CurrentBrightness + offset;
+            
+            if (brightness > 1) brightness = 1;
+            else if (brightness < 0) brightness = 0;
+
+            if (!SetMonitorBrightness(physicalMonitor.hPhysicalMonitor, (uint)(dwMinimumBrightness + (dwMaximumBrightness - dwMinimumBrightness) * brightness)))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            return brightness;
+        }
+
+        #endregion
     }
 }
