@@ -17,7 +17,7 @@ namespace tinyBrightness.SettingsPages
         }
 
         Window Owner;
-
+        private bool Ready = false;
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             Owner = Window.GetWindow(this).Owner;
@@ -29,6 +29,13 @@ namespace tinyBrightness.SettingsPages
 
             if (data["Hotkeys"]["HotkeysEnable"] == "1")
                 HotkeysSwitch.IsOn = true;
+
+            int StepSize = 5;
+            if (int.TryParse(data["Hotkeys"]["StepSize"], out int StepSizeValue)) StepSize = StepSizeValue;
+            
+            StepSlider.Value = StepSize;
+
+            Ready = true;
         }
 
         private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -131,5 +138,16 @@ namespace tinyBrightness.SettingsPages
             }
         }
 
+        private void StepSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Ready)
+            {
+                IniData data = SettingsController.GetCurrentSettings();
+
+                data["Hotkeys"]["StepSize"] = StepSlider.Value.ToString();
+
+                SettingsController.SaveSettings(data);
+            }
+        }
     }
 }

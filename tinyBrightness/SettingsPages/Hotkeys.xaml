@@ -21,7 +21,12 @@
             <TextBlock MaxWidth="250" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12">Hotkeys will change brightness on monitor with the cursor.</TextBlock>
             <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" TextChanged="BrightnessUpTextbox_TextChanged" x:Name="BrightnessUpTextbox" ui:ControlHelper.Header="Brightness up" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
             <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" TextChanged="BrightnessDownTextbox_TextChanged" x:Name="BrightnessDownTextbox" ui:ControlHelper.Header="Brightness down" ui:ControlHelper.PlaceholderText="Enter hotkey" PreviewKeyDown="TextBox_PreviewKeyDown"/>
-
+            <Grid>
+                <Slider IsMoveToPointEnabled="True" x:Name="StepSlider" ValueChanged="StepSlider_ValueChanged"
+                ui:ControlHelper.Header="Step size" SmallChange="1" TickPlacement="BottomRight" Maximum="15" AutoToolTipPlacement="TopLeft" Minimum="1" IsSnapToTickEnabled="True"/>
+                <TextBlock Padding="0,2,0,0" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Text="{Binding Value, ElementName=StepSlider, Mode=OneWay}" />
+            </Grid>
         </ui:SimpleStackPanel>
 
     </Grid>

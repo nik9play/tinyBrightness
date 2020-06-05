@@ -264,15 +264,20 @@ namespace tinyBrightness
 
             IniData data = SettingsController.GetCurrentSettings();
 
+            int StepSize = 5;
+            if (int.TryParse(data["Hotkeys"]["StepSize"], out int StepSizeValue)) StepSize = StepSizeValue;
+
             try
             {
+                double StepDouble = (double)StepSize / 100;
+                
                 DisplayConfiguration.PHYSICAL_MONITOR Handle = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
-                Task.Run(() => { try { DisplayConfiguration.SetBrightnessOffset(Handle, IsUp ? 0.05 : -0.05); } catch { } });
+                Task.Run(() => { try { DisplayConfiguration.SetBrightnessOffset(Handle, IsUp ? StepDouble : -StepDouble); } catch { } });
 
                 if (HotkeyPopupWindow.IsVisible)
                 {
                     int HotkeyPopupBrightness = int.Parse(HotkeyPopupWindow.PercentText.Text);
-                    int NewBrightness = HotkeyPopupBrightness + (IsUp ? 5 : -5);
+                    int NewBrightness = HotkeyPopupBrightness + (IsUp ? StepSize : -StepSize);
 
                     if (NewBrightness > 100) NewBrightness = 100;
                     else if (NewBrightness < 0) NewBrightness = 0;
@@ -440,31 +445,31 @@ namespace tinyBrightness
                         
                         SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
                         System.Threading.Thread.Sleep(4000);
-                        
-/*                        foreach (MONITOR mon in MonitorList)
+
+                        foreach (MONITOR mon in MonitorList)
                         {
                             if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDusk()) == 1)
                             {
-                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunsetBrightness()); }
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunsetBrightness(), mon.Min, mon.Max); }
                                 catch { }
                             }
                             else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunset()) == 1)
                             {
-                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunsetBrightness()); }
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunsetBrightness(), mon.Min, mon.Max); }
                                 catch { }
                             }
                             else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunrise()) == 1)
                             {
-                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunriseBrightness()); }
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunriseBrightness(), mon.Min, mon.Max); }
                                 catch { }
                             }
                             else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDawn()) == 1)
                             {
-                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunriseBrightness()); }
+                                try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunriseBrightness(), mon.Min, mon.Max); }
                                 catch { }
                             }
                         }
-*/                    }
+                    }
                     break;
                 case PowerModes.Suspend:
                     CheckForSunriset.Stop();
@@ -486,30 +491,30 @@ namespace tinyBrightness
 
                 SunrisetTools RisetTools = new SunrisetTools(AutoBrightnessSettings.GetLat(), AutoBrightnessSettings.GetLon());
 
-/*                foreach (MONITOR mon in MonitorList)
+                foreach (MONITOR mon in MonitorList)
                 {
                     if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunrise()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunriseBrightness()); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunriseBrightness(), mon.Min, mon.Max); }
                         catch { }
                     }
                     else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodaySunset()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunsetBrightness()); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetSunsetBrightness(), mon.Min, mon.Max); }
                         catch { }
                     }
                     else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDawn()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunriseBrightness()); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunriseBrightness(), mon.Min, mon.Max); }
                         catch { }
                     }
                     else if (TimeSpan.Compare(CurrentTime, RisetTools.GetTodayDusk()) == 0)
                     {
-                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunsetBrightness()); }
+                        try { DisplayConfiguration.SetMonitorBrightness(mon.Handle, AutoBrightnessSettings.GetAstroSunsetBrightness(), mon.Min, mon.Max); }
                         catch { }
                     }
                 }
-*/            };
+            };
         }
 
         #endregion
