@@ -37,10 +37,26 @@
                     </ui:FlyoutService.Flyout>
                     Get information by IP
                 </Button>
-                <Slider IsSnapToTickEnabled="True" x:Name="SunriseSlider" ValueChanged="SunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunrise" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                <Slider IsSnapToTickEnabled="True" x:Name="SunsetSlider" ValueChanged="SunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunset" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                <Slider IsSnapToTickEnabled="True" x:Name="AstroSunriseSlider" ValueChanged="AstroSunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dawn" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
-                <Slider IsSnapToTickEnabled="True" x:Name="AstroSunsetSlider" ValueChanged="AstroSunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dusk" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                <Grid>
+                    <Slider IsSnapToTickEnabled="True" x:Name="SunriseSlider" ValueChanged="SunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunrise" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Text="{Binding Value, ElementName=SunriseSlider, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Slider IsSnapToTickEnabled="True" x:Name="SunsetSlider" ValueChanged="SunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after sunset" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Text="{Binding Value, ElementName=SunsetSlider, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Slider IsSnapToTickEnabled="True" x:Name="AstroSunriseSlider" ValueChanged="AstroSunriseSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dawn" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Text="{Binding Value, ElementName=AstroSunriseSlider, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Slider IsSnapToTickEnabled="True" x:Name="AstroSunsetSlider" ValueChanged="AstroSunsetSlider_ValueChanged" ui:ControlHelper.Header="Brightness after dusk" IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft" Maximum="100" TickFrequency="1"/>
+                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Text="{Binding Value, ElementName=AstroSunsetSlider, Mode=OneWay}" />
+                </Grid>
             </ui:SimpleStackPanel>
         </ScrollViewer>
     </Grid>

@@ -24,7 +24,7 @@
             <Grid>
                 <Slider IsMoveToPointEnabled="True" x:Name="StepSlider" ValueChanged="StepSlider_ValueChanged"
                 ui:ControlHelper.Header="Step size" SmallChange="1" TickPlacement="BottomRight" Maximum="15" AutoToolTipPlacement="TopLeft" Minimum="1" IsSnapToTickEnabled="True"/>
-                <TextBlock Padding="0,2,0,0" HorizontalAlignment="Right" VerticalAlignment="Top"
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
                         Text="{Binding Value, ElementName=StepSlider, Mode=OneWay}" />
             </Grid>
         </ui:SimpleStackPanel>
