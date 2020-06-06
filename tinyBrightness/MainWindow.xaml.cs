@@ -288,7 +288,7 @@ namespace tinyBrightness
                 else
                 {
                     double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(Handle);
-                    HotkeyPopupWindow.PercentText.Text = (CurrentBrightness * 100).ToString();
+                    HotkeyPopupWindow.PercentText.Text = ((CurrentBrightness * 100) + (IsUp ? StepSize : -StepSize)).ToString();
                     HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
                 }
             }
