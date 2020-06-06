@@ -167,7 +167,16 @@ namespace tinyBrightness
                     Name = "Generic Monitor";
                 }
 
-                DisplayConfiguration.MonitorExtremums MonExtrs = DisplayConfiguration.GetMonitorExtremums(mon);
+                DisplayConfiguration.MonitorExtremums MonExtrs;
+
+                try
+                {
+                    MonExtrs = DisplayConfiguration.GetMonitorExtremums(mon);
+                }
+                catch
+                {
+                    MonExtrs = new DisplayConfiguration.MonitorExtremums() { Min = 0, Max = 0 };
+                }
 
                 MonitorList.Add(new MONITOR(Name, mon, MonExtrs.Min, MonExtrs.Max));
             }
