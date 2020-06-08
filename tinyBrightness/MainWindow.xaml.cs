@@ -455,9 +455,11 @@ namespace tinyBrightness
                     if (data["AutoBrightness"]["Enabled"] == "1")
                     {
                         CheckForSunriset.Start();
-                        System.Threading.Thread.Sleep(4000);
-
-                        SetAutoBrightness(1);
+                        Task.Run(() =>
+                        {
+                            System.Threading.Thread.Sleep(4000);
+                            SetAutoBrightness(1);
+                        });
                     }
                     break;
                 case PowerModes.Suspend:
