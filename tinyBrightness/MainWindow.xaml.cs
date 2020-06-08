@@ -478,7 +478,7 @@ namespace tinyBrightness
             SystemEvents.PowerModeChanged += AutoBrightnessOnPowerChange;
             CheckForSunriset.Tick += (sender, e) =>
             {
-                SetAutoBrightness(0);
+                Task.Run(() => SetAutoBrightness(0));
             };
         }
 
