@@ -110,16 +110,14 @@ namespace tinyBrightness
             AfterUpdateCheck();
 
             IniData data = SettingsController.GetCurrentSettings();
-            DisplayConfiguration.PHYSICAL_MONITOR CurrentMonitor = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
-            double CurrentBrightness = 0;
+            DisplayConfiguration.PHYSICAL_MONITOR Handle = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
-            try
-            {
-                CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(CurrentMonitor);
-            }
-            catch { }
-
+            DisplayConfiguration.MonitorExtremums MonExtems = DisplayConfiguration.GetMonitorExtremums(Handle);
+            double CurrentBrightness = (double)(MonExtems.Current - MonExtems.Min) / (double)(MonExtems.Max - MonExtems.Min);
+            HotkeyPopupWindow.dwMinimumBrightness = MonExtems.Min;
+            HotkeyPopupWindow.dwMaximumBrightness = MonExtems.Max;
+            HotkeyPopupWindow.dwCurrentBrightness = MonExtems.Current;
             HotkeyPopupWindow.PercentText.Text = (CurrentBrightness * 100).ToString();
             HotkeyPopupWindow.Show();
             HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
@@ -281,7 +279,7 @@ namespace tinyBrightness
                 double StepDouble = (double)StepSize / 100;
                 
                 DisplayConfiguration.PHYSICAL_MONITOR Handle = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
-                Task.Run(() => { try { DisplayConfiguration.SetBrightnessOffset(Handle, IsUp ? StepDouble : -StepDouble); } catch { } });
+                /*Task.Run(() => { try { DisplayConfiguration.SetBrightnessOffset(Handle, IsUp ? StepDouble : -StepDouble); } catch { } });*/
 
                 if (HotkeyPopupWindow.IsVisible)
                 {
@@ -291,12 +289,19 @@ namespace tinyBrightness
                     if (NewBrightness > 100) NewBrightness = 100;
                     else if (NewBrightness < 0) NewBrightness = 0;
 
+                    Task.Run(() => { try { DisplayConfiguration.SetMonitorBrightness(Handle, (double)NewBrightness / 100, HotkeyPopupWindow.dwMinimumBrightness, HotkeyPopupWindow.dwMaximumBrightness); } catch { } });
+
                     HotkeyPopupWindow.PercentText.Text = NewBrightness.ToString();
                     HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
                 }
                 else
                 {
-                    double CurrentBrightness = DisplayConfiguration.GetMonitorBrightness(Handle);
+                    DisplayConfiguration.MonitorExtremums MonExtems = DisplayConfiguration.GetMonitorExtremums(Handle);
+                    double CurrentBrightness = (double)(MonExtems.Current - MonExtems.Min) / (double)(MonExtems.Max - MonExtems.Min);
+                    Task.Run(() => { try { DisplayConfiguration.SetBrightnessOffset(Handle, IsUp ? StepDouble : -StepDouble, CurrentBrightness, MonExtems.Min, MonExtems.Max); } catch { } });
+                    HotkeyPopupWindow.dwMinimumBrightness = MonExtems.Min;
+                    HotkeyPopupWindow.dwMaximumBrightness = MonExtems.Max;
+                    HotkeyPopupWindow.dwCurrentBrightness = MonExtems.Current;
                     HotkeyPopupWindow.PercentText.Text = ((CurrentBrightness * 100) + (IsUp ? StepSize : -StepSize)).ToString();
                     HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
                 }

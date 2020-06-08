@@ -17,6 +17,8 @@ namespace tinyBrightness
             DataContext = this;
         }
 
+        public uint dwMinimumBrightness, dwMaximumBrightness, dwCurrentBrightness;
+
         private DispatcherTimer HideTimer = new DispatcherTimer()
         {
             Interval = new TimeSpan(0, 0, 3)
