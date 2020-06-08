@@ -153,6 +153,7 @@ namespace tinyBrightness
         {
             public uint Min;
             public uint Max;
+            public uint Current;
         }
 
         public static MonitorExtremums GetMonitorExtremums(PHYSICAL_MONITOR physicalMonitor)
@@ -165,7 +166,8 @@ namespace tinyBrightness
             return new MonitorExtremums
             {
                 Min = dwMinimumBrightness,
-                Max = dwMaximumBrightness
+                Max = dwMaximumBrightness,
+                Current = dwCurrentBrightness
             };
         }
 
@@ -186,6 +188,19 @@ namespace tinyBrightness
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             return brightness;
+        }
+
+        public static void SetBrightnessOffset(PHYSICAL_MONITOR physicalMonitor, double offset, double CurrentBrightness, uint dwMinimumBrightness, uint dwMaximumBrightness)
+        {
+            double brightness = CurrentBrightness + offset;
+
+            if (brightness > 1) brightness = 1;
+            else if (brightness < 0) brightness = 0;
+
+            if (!SetMonitorBrightness(physicalMonitor.hPhysicalMonitor, (uint)(dwMinimumBrightness + (dwMaximumBrightness - dwMinimumBrightness) * brightness)))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
         }
 
         #endregion
