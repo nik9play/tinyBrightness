@@ -20,25 +20,29 @@ namespace tinyBrightness
         public TimeSpan GetTodaySunrise()
         {
             Sunriset.SunriseSunset(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tsunrise, out _);
-            return TimeSpan.FromHours(tsunrise);
+            TimeSpan Time = TimeSpan.FromHours(tsunrise);
+            return new TimeSpan(Time.Hours, Time.Minutes, 0);
         }
 
         public TimeSpan GetTodaySunset()
         {
             Sunriset.SunriseSunset(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out _, out double tsunset);
-            return TimeSpan.FromHours(tsunset);
+            TimeSpan Time = TimeSpan.FromHours(tsunset);
+            return new TimeSpan(Time.Hours, Time.Minutes, 0);
         }
 
         public TimeSpan GetTodayDawn()
         {
             Sunriset.AstronomicalTwilight(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out double tastrosunrise, out _);
-            return TimeSpan.FromHours(tastrosunrise);
+            TimeSpan Time = TimeSpan.FromHours(tastrosunrise);
+            return new TimeSpan(Time.Hours, Time.Minutes, 0);
         }
 
         public TimeSpan GetTodayDusk()
         {
             Sunriset.AstronomicalTwilight(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Lat, Lon, out _, out double tastrosunset);
-            return TimeSpan.FromHours(tastrosunset);
+            TimeSpan Time = TimeSpan.FromHours(tastrosunset);
+            return new TimeSpan(Time.Hours, Time.Minutes, 0);
         }
     }
 }
