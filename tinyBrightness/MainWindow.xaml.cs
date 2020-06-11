@@ -390,14 +390,15 @@ namespace tinyBrightness
         {
             PercentText.Text = Convert.ToInt32(((Slider)sender).Value).ToString();
 
-            debounceTimer.Throttle(50, (p) =>
+            debounceTimer.Throttle(15, (p) =>
             {
                 try
                 {
                     DisplayConfiguration.PHYSICAL_MONITOR Handle = CurrentMonitor.Handle;
                     uint Min = CurrentMonitor.Min;
                     uint Max = CurrentMonitor.Max;
-                    DisplayConfiguration.SetMonitorBrightness(Handle, ((Slider)sender).Value / 100, Min, Max);
+                    double Value = ((Slider)sender).Value / 100;
+                    Task.Run(() => DisplayConfiguration.SetMonitorBrightness(Handle, Value, Min, Max));
                 }
                 catch { }
             });
