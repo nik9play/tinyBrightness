@@ -61,19 +61,19 @@
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
     <Reference Include="ModernWpf, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ModernWpfUI.0.9.0-preview.200528.0\lib\net462\ModernWpf.dll</HintPath>
+      <HintPath>..\packages\ModernWpfUI.0.9.0\lib\net462\ModernWpf.dll</HintPath>
     </Reference>
     <Reference Include="ModernWpf.Controls, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ModernWpfUI.0.9.0-preview.200528.0\lib\net462\ModernWpf.Controls.dll</HintPath>
+      <HintPath>..\packages\ModernWpfUI.0.9.0\lib\net462\ModernWpf.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHotkey, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a76ffb086700b11c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHotkey.2.0.1\lib\net45\NHotkey.dll</HintPath>
+      <HintPath>..\packages\NHotkey.2.1.0\lib\net45\NHotkey.dll</HintPath>
     </Reference>
     <Reference Include="NHotkey.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a76ffb086700b11c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHotkey.Wpf.2.0.1\lib\net45\NHotkey.Wpf.dll</HintPath>
+      <HintPath>..\packages\NHotkey.Wpf.2.1.0\lib\net45\NHotkey.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
