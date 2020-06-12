@@ -54,6 +54,7 @@
                                         NavigateUri="https://github.com/sourcechord/FluentWPF" Padding="0"/>
                 </WrapPanel>
             </ui:SimpleStackPanel>
+            <Button Style="{DynamicResource AccentButtonStyle}" x:Name="StartBenchmarkButton" Click="StartBenchmarkButton_Click">Start Benchmark</Button>
         </ui:SimpleStackPanel>
     </Grid>
 </Page>

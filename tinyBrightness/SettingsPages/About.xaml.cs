@@ -23,5 +23,29 @@ namespace tinyBrightness.SettingsPages
             string displayableVersion = $"{version} ({buildDate})";
             Version_Text.Text = displayableVersion;
         }
+
+        private void StartBenchmarkButton_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayConfiguration.PHYSICAL_MONITOR Handle = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
+            var GetBrightnessWatch = System.Diagnostics.Stopwatch.StartNew();
+            double Brightness = DisplayConfiguration.GetMonitorBrightness(Handle);
+            GetBrightnessWatch.Stop();
+
+            var SetBrightnessWatchExtrems = System.Diagnostics.Stopwatch.StartNew();
+            DisplayConfiguration.MonitorExtremums MonExtems = DisplayConfiguration.GetMonitorExtremums(Handle);
+            uint dwMinimumBrightness = MonExtems.Min;
+            uint dwMaximumBrightness = MonExtems.Max;
+            DisplayConfiguration.SetMonitorBrightness(Handle, 1, dwMinimumBrightness, dwMaximumBrightness);
+            SetBrightnessWatchExtrems.Stop();
+
+            var SetBrightnessWatch = System.Diagnostics.Stopwatch.StartNew();
+            DisplayConfiguration.SetMonitorBrightness(Handle, Brightness, dwMinimumBrightness, dwMaximumBrightness);
+            SetBrightnessWatch.Stop();
+
+            MessageBox.Show($"GetBrightness: {GetBrightnessWatch.ElapsedMilliseconds} ms.\n" +
+                $"SetBrightnessExtrems: {SetBrightnessWatchExtrems.ElapsedMilliseconds} ms.\n" +
+                $"SetBrightness: {SetBrightnessWatch.ElapsedMilliseconds} ms.\n\n" +
+                $"Total: {GetBrightnessWatch.ElapsedMilliseconds + SetBrightnessWatchExtrems.ElapsedMilliseconds + SetBrightnessWatch.ElapsedMilliseconds} ms.", "Benchmark Results");
+        }
     }
 }
