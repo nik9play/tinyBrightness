@@ -113,12 +113,15 @@ namespace tinyBrightness
 
             DisplayConfiguration.PHYSICAL_MONITOR Handle = DisplayConfiguration.GetPhysicalMonitors(DisplayConfiguration.GetCurrentMonitor())[0];
 
-            DisplayConfiguration.MonitorExtremums MonExtems = DisplayConfiguration.GetMonitorExtremums(Handle);
-            double CurrentBrightness = (double)(MonExtems.Current - MonExtems.Min) / (double)(MonExtems.Max - MonExtems.Min);
-            HotkeyPopupWindow.dwMinimumBrightness = MonExtems.Min;
-            HotkeyPopupWindow.dwMaximumBrightness = MonExtems.Max;
-            HotkeyPopupWindow.dwCurrentBrightness = MonExtems.Current;
-            HotkeyPopupWindow.PercentText.Text = (CurrentBrightness * 100).ToString();
+            try
+            {
+                DisplayConfiguration.MonitorExtremums MonExtems = DisplayConfiguration.GetMonitorExtremums(Handle);
+                double CurrentBrightness = (double)(MonExtems.Current - MonExtems.Min) / (double)(MonExtems.Max - MonExtems.Min);
+                HotkeyPopupWindow.dwMinimumBrightness = MonExtems.Min;
+                HotkeyPopupWindow.dwMaximumBrightness = MonExtems.Max;
+                HotkeyPopupWindow.dwCurrentBrightness = MonExtems.Current;
+                HotkeyPopupWindow.PercentText.Text = (CurrentBrightness * 100).ToString();
+            } catch { }
             HotkeyPopupWindow.Show();
             HotkeyPopupWindow.ShowMe(data["Misc"]["HotkeyPopupPosition"]);
         }
