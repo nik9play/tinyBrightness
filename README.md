@@ -1,3 +1,4 @@
+# [Consider using the new rewritten version of tinyBrightness - phos!](https://github.com/nik9play/phos)
 <p align="center"><img src="https://raw.githubusercontent.com/nik9play/tinyBrightness/master/presentation.gif" /></p>
 
 [![Download](https://img.shields.io/github/downloads/nik9play/tinyBrightness/total?style=flat-square)](https://github.com/nik9play/tinyBrightness/releases) 
